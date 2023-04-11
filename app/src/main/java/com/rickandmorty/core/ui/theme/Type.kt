@@ -49,7 +49,7 @@ val Typography = Typography(
     bodySmall = TextStyle(
         fontFamily = Avenir,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp
+        fontSize = 18.sp
     ),
     displayLarge = TextStyle(
         fontFamily = RickAndMorty,

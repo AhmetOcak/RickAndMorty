@@ -1,30 +1,39 @@
 package com.rickandmorty.presentation.home
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rickandmorty.R
+import com.rickandmorty.core.common.setLocationImage
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
 
-    HomeScreenContent(modifier = modifier)
+    val locationsState by viewModel.locationsState.collectAsState()
+
+    HomeScreenContent(modifier = modifier, locationsState = locationsState)
 }
 
 @Composable
-private fun HomeScreenContent(modifier: Modifier) {
+private fun HomeScreenContent(modifier: Modifier, locationsState: LocationsState) {
     Scaffold(
         modifier = modifier.fillMaxSize()
     ) {
@@ -34,27 +43,43 @@ private fun HomeScreenContent(modifier: Modifier) {
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LocationsSection(modifier = modifier)
+            LocationsSection(modifier = modifier, locationsState = locationsState)
             CharactersSection(modifier = modifier)
         }
     }
 }
 
 @Composable
-private fun LocationsSection(modifier: Modifier) {
-    LazyRow(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = LocalConfiguration.current.screenHeightDp.dp / 3 - 48.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(10) {
-            Location(
-                modifier = modifier,
-                contentImage = R.drawable.location_earth,
-                location = "Earth"
-            )
+private fun LocationsSection(modifier: Modifier, locationsState: LocationsState) {
+    when (locationsState) {
+        is LocationsState.Loading -> {
+            Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = Color.Green)
+            }
+        }
+        is LocationsState.Success -> {
+            LazyRow(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(top = LocalConfiguration.current.screenHeightDp.dp / 3 - 48.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(locationsState.data.results) {
+                    Location(
+                        modifier = modifier,
+                        contentImage = setLocationImage(it.name),
+                        location = it.name
+                    )
+                }
+            }
+        }
+        is LocationsState.Error -> {
+            Toast.makeText(
+                LocalContext.current,
+                locationsState.message,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
@@ -150,7 +175,9 @@ private fun Location(modifier: Modifier, contentImage: Int, location: String) {
                 contentScale = ContentScale.Crop
             )
             Text(
-                modifier = modifier.weight(1f),
+                modifier = modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp),
                 text = location,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center
@@ -162,7 +189,9 @@ private fun Location(modifier: Modifier, contentImage: Int, location: String) {
 @Composable
 private fun PageTitle(modifier: Modifier) {
     Text(
-        modifier = modifier.fillMaxWidth().padding(top = 32.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 32.dp),
         text = "Rick and Morty",
         style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center
