@@ -1,10 +1,12 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.rickandmorty"
@@ -59,4 +61,32 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+    // Compose Navigation
+    implementation "androidx.navigation:navigation-compose:2.5.3"
+
+    // System UI Controller - Accompanist
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.25.1"
+
+    // Dependency Injection
+    implementation 'com.google.dagger:hilt-android:2.44'
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    kapt 'com.google.dagger:hilt-compiler:2.44'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+
+    // Coil
+    implementation "io.coil-kt:coil:2.1.0"
+    implementation "io.coil-kt:coil-compose:2.1.0"
 }
