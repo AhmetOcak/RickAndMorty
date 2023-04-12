@@ -13,7 +13,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -21,19 +24,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.rickandmorty.R
+import com.rickandmorty.core.common.loadImage
 import com.rickandmorty.core.common.setLocationImage
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
 
     val locationsState by viewModel.locationsState.collectAsState()
+    val characterState by viewModel.characterState.collectAsState()
 
-    HomeScreenContent(modifier = modifier, locationsState = locationsState)
+    HomeScreenContent(
+        modifier = modifier,
+        locationsState = locationsState,
+        selectedLocationId = viewModel.selectedLocationId,
+        onLocationClicked = {
+            viewModel.updateSelectedLocationId(it)
+            viewModel.getCharacters()
+        },
+        characterState = characterState,
+        setCharacterGenderImg = { viewModel.setCharacterGenderImage(it) }
+    )
 }
 
 @Composable
-private fun HomeScreenContent(modifier: Modifier, locationsState: LocationsState) {
+private fun HomeScreenContent(
+    modifier: Modifier,
+    locationsState: LocationsState,
+    selectedLocationId: Int,
+    onLocationClicked: (Int) -> Unit,
+    characterState: CharacterState,
+    setCharacterGenderImg: (String) -> Int
+) {
     Scaffold(
         modifier = modifier.fillMaxSize()
     ) {
@@ -43,14 +66,28 @@ private fun HomeScreenContent(modifier: Modifier, locationsState: LocationsState
             modifier = modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LocationsSection(modifier = modifier, locationsState = locationsState)
-            CharactersSection(modifier = modifier)
+            LocationsSection(
+                modifier = modifier,
+                locationsState = locationsState,
+                selectedLocationId = selectedLocationId,
+                onLocationClicked = onLocationClicked
+            )
+            CharactersSection(
+                modifier = modifier,
+                characterState = characterState,
+                setCharacterGenderImg = setCharacterGenderImg
+            )
         }
     }
 }
 
 @Composable
-private fun LocationsSection(modifier: Modifier, locationsState: LocationsState) {
+private fun LocationsSection(
+    modifier: Modifier,
+    locationsState: LocationsState,
+    selectedLocationId: Int,
+    onLocationClicked: (Int) -> Unit
+) {
     when (locationsState) {
         is LocationsState.Loading -> {
             Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -65,11 +102,14 @@ private fun LocationsSection(modifier: Modifier, locationsState: LocationsState)
                 contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(locationsState.data.results) {
+                items(locationsState.data.results, key = { it.id }) {
                     Location(
                         modifier = modifier,
                         contentImage = setLocationImage(it.name),
-                        location = it.name
+                        locationName = it.name,
+                        locationId = it.id,
+                        isSelected = selectedLocationId == it.id,
+                        onClick = onLocationClicked
                     )
                 }
             }
@@ -85,21 +125,47 @@ private fun LocationsSection(modifier: Modifier, locationsState: LocationsState)
 }
 
 @Composable
-private fun CharactersSection(modifier: Modifier) {
-    LazyColumn(
-        modifier = modifier
-            .fillMaxWidth()
-            .navigationBarsPadding(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(10) {
-            Character(
-                modifier = modifier,
-                characterImage = R.drawable.test,
-                characterName = "Beth Smith",
-                gender = "male"
-            )
+private fun CharactersSection(
+    modifier: Modifier,
+    characterState: CharacterState,
+    setCharacterGenderImg: (String) -> Int
+) {
+    when (characterState) {
+        is CharacterState.Loading -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        is CharacterState.Success -> {
+            if (characterState.data.isEmpty()) {
+                Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    EmptyLocation(modifier = modifier)
+                }
+            } else {
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .navigationBarsPadding(),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(characterState.data, key = { it.id }) {
+                        Character(
+                            modifier = modifier,
+                            characterImage = it.image,
+                            characterName = it.name,
+                            genderImage = setCharacterGenderImg(it.gender)
+                        )
+                    }
+                }
+            }
+        }
+        is CharacterState.Error -> {
+            Toast.makeText(
+                LocalContext.current,
+                characterState.message,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 }
@@ -108,9 +174,9 @@ private fun CharactersSection(modifier: Modifier) {
 @Composable
 private fun Character(
     modifier: Modifier,
-    characterImage: Int,
+    characterImage: String,
     characterName: String,
-    gender: String
+    genderImage: Int
 ) {
     ElevatedCard(
         modifier = modifier
@@ -124,11 +190,11 @@ private fun Character(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(
+            AsyncImage(
                 modifier = modifier
                     .weight(2f)
                     .fillMaxSize(),
-                painter = painterResource(id = characterImage),
+                model = loadImage(context = LocalContext.current, imageUrl = characterImage),
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -139,10 +205,13 @@ private fun Character(
             ) {
                 Image(
                     modifier = modifier.size(144.dp),
-                    painter = painterResource(id = R.drawable.male),
-                    contentDescription = "character gender $gender"
+                    painter = painterResource(id = genderImage),
+                    contentDescription = "character gender"
                 )
                 Text(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     text = characterName,
                     style = MaterialTheme.typography.displayMedium,
                     textAlign = TextAlign.Center
@@ -154,10 +223,20 @@ private fun Character(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Location(modifier: Modifier, contentImage: Int, location: String) {
+private fun Location(
+    modifier: Modifier,
+    contentImage: Int,
+    locationName: String,
+    locationId: Int,
+    isSelected: Boolean,
+    onClick: (Int) -> Unit
+) {
     ElevatedCard(
         shape = RoundedCornerShape(10),
-        onClick = {}
+        onClick = { onClick(locationId) },
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (!isSelected) Color.LightGray else MaterialTheme.colorScheme.surface
+        )
     ) {
         Row(
             modifier = modifier.size(
@@ -172,17 +251,45 @@ private fun Location(modifier: Modifier, contentImage: Int, location: String) {
                     .fillMaxSize(),
                 painter = painterResource(id = contentImage),
                 contentDescription = null,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                colorFilter = if (!isSelected) ColorFilter.colorMatrix(
+                    ColorMatrix().apply {
+                        setToSaturation(0f)
+                    }
+                ) else null
             )
             Text(
                 modifier = modifier
                     .weight(1f)
                     .padding(horizontal = 4.dp),
-                text = location,
+                text = locationName,
                 style = MaterialTheme.typography.bodySmall,
                 textAlign = TextAlign.Center
             )
         }
+    }
+}
+
+@Composable
+private fun EmptyLocation(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = modifier.size(96.dp),
+            painter = painterResource(id = R.drawable.empty_box),
+            contentDescription = null
+        )
+        Text(
+            modifier = modifier.padding(top = 8.dp),
+            text = "Apparently no one lives here.",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
