@@ -1,4 +1,4 @@
-package com.rickandmorty.data.datasource.remote
+package com.rickandmorty.data.datasource.remote.location
 
 import com.rickandmorty.data.datasource.remote.location.entity.LocationDto
 

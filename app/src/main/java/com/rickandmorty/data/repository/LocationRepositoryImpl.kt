@@ -1,6 +1,6 @@
 package com.rickandmorty.data.repository
 
-import com.rickandmorty.data.datasource.remote.LocationRemoteDataSource
+import com.rickandmorty.data.datasource.remote.location.LocationRemoteDataSource
 import com.rickandmorty.data.mappers.toLocation
 import com.rickandmorty.domain.model.location.Location
 import com.rickandmorty.domain.repository.LocationRepository
