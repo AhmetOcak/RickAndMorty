@@ -2,10 +2,10 @@ package com.rickandmorty.data.datasource.remote.location.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class LocationDto(
+data class Location(
     @SerializedName("info")
-    val info: InfoDto?,
+    val info: Info?,
 
     @SerializedName("results")
-    val results: ArrayList<ResultsDto> = arrayListOf()
+    val results: ArrayList<Results> = arrayListOf()
 )

@@ -2,7 +2,7 @@ package com.rickandmorty.data.datasource.remote.location.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class InfoDto(
+data class Info(
     @SerializedName("count")
     val count: Int?,
 

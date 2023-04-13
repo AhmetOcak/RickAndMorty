@@ -1,17 +1,14 @@
 package com.rickandmorty.presentation.home
 
+import android.location.Location
 import android.net.Uri
-import android.util.Log
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.rickandmorty.R
 import com.rickandmorty.core.common.Response
-import com.rickandmorty.domain.model.location.Location
+import com.rickandmorty.domain.repository.LocationRepository
 import com.rickandmorty.domain.usecase.character.GetCharacterUseCase
-import com.rickandmorty.domain.usecase.location.GetLocationsUseCase
 import com.rickandmorty.presentation.utils.CharacterGender
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,54 +21,25 @@ private const val exceptionMessage = "Something went wrong. Please try again lat
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getLocationsUseCase: GetLocationsUseCase,
-    private val getCharacterUseCase: GetCharacterUseCase
+    private val getCharacterUseCase: GetCharacterUseCase,
+    private val locationRepository: LocationRepository
 ) : ViewModel() {
-
-    private val _locationState = MutableStateFlow<LocationsState>(LocationsState.Loading)
-    val locationsState = _locationState.asStateFlow()
 
     private val _characterState = MutableStateFlow<CharacterState>(CharacterState.Loading)
     val characterState = _characterState.asStateFlow()
 
     private var locations: Location? = null
 
-    var selectedLocationId by mutableStateOf(1)
-        private set
-
-    fun updateSelectedLocationId(newLocationId: Int) {
-        selectedLocationId = newLocationId
-    }
-
     init {
         getLocations()
     }
 
-    private fun getLocations() = viewModelScope.launch(Dispatchers.IO) {
-        getLocationsUseCase().collect() { response ->
-            when (response) {
-                is Response.Loading -> {
-                    _locationState.value = LocationsState.Loading
-                }
-                is Response.Success -> {
-                    _locationState.value = LocationsState.Success(data = response.data)
-                    locations = response.data
+    fun getLocations() = locationRepository.getLocations().cachedIn(viewModelScope)
 
-                    getCharacters()
-                }
-                is Response.Error -> {
-                    _locationState.value = LocationsState.Error(message = response.message)
-                }
-            }
-        }
-    }
-
-    fun getCharacters() = viewModelScope.launch(Dispatchers.IO) {
+    fun getCharacters(residents: ArrayList<String>) = viewModelScope.launch(Dispatchers.IO) {
         val characterIds = arrayListOf<Int>()
 
-        locations?.results?.find {
-            it.id == selectedLocationId
-        }?.residents?.forEach {
+        residents.forEach {
             try {
                 characterIds.add(
                     extractCharacterId(it)
@@ -80,9 +48,6 @@ class HomeViewModel @Inject constructor(
                 _characterState.value = CharacterState.Error(message = exceptionMessage)
             }
         }
-
-        Log.d("locations", locations.toString())
-        Log.d("character ids", characterIds.toString())
 
         // Eğer characterIds boş ise, seçili lokasyonda resident yok demektir.
         if (characterIds.isEmpty()) {
@@ -127,5 +92,9 @@ class HomeViewModel @Inject constructor(
                 R.drawable.unknown
             }
         }
+    }
+
+    fun setCharacterStateError() {
+        _characterState.value = CharacterState.Error(message = exceptionMessage)
     }
 }

@@ -1,8 +1,10 @@
 package com.rickandmorty.domain.repository
 
-import com.rickandmorty.domain.model.location.Location
+import androidx.paging.PagingData
+import com.rickandmorty.data.datasource.remote.location.entity.Results
+import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
 
-    suspend fun getLocations(): Location
+    fun getLocations(): Flow<PagingData<Results>>
 }

@@ -2,9 +2,9 @@ package com.rickandmorty.data.datasource.remote.location.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class ResultsDto(
+data class Results(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
 
     @SerializedName("name")
     val name: String?,
