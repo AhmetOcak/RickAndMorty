@@ -122,24 +122,26 @@ private fun LocationsSection(
         }
 
         onLoadStateRefresh(
-            locations, modifier,
+            locations, 
+            modifier,
             setCharacterStateError = setCharacterStateError
         )
         onLoadStateAppend(
-            locations, modifier,
-            setCharacterStateError = setCharacterStateError
+            locations, 
+            modifier
         )
     }
 }
 
 private fun LazyListScope.onLoadStateAppend(
     locations: LazyPagingItems<Results>,
-    modifier: Modifier,
-    setCharacterStateError: () -> Unit
+    modifier: Modifier
 ) {
     when (val state = locations.loadState.append) {
         is LoadState.Error -> {
-            setCharacterStateError()
+            item {
+                ErrorPagingItem(modifier = modifier)
+            }
             Log.e("load state append error", state.error.stackTraceToString())
         }
         is LoadState.Loading -> {
@@ -148,10 +150,10 @@ private fun LazyListScope.onLoadStateAppend(
                     modifier = modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    horizontalArrangement = Arrangement.End,
+                    horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = Color(0xFF39FF14))
                 }
             }
         }
@@ -168,6 +170,9 @@ private fun LazyListScope.onLoadStateRefresh(
         is LoadState.Error -> {
             setCharacterStateError()
             Log.e("load state refresh error", state.error.stackTraceToString())
+            item { 
+                ErrorPagingItem(modifier = modifier)
+            }
         }
         is LoadState.Loading -> {
             item {
@@ -175,7 +180,7 @@ private fun LazyListScope.onLoadStateRefresh(
                     modifier = modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(color = Color(0xFF39FF14))
                 }
             }
         }
@@ -399,8 +404,11 @@ private fun EmptyLocation(modifier: Modifier) {
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            modifier = modifier.size(96.dp),
-            painter = painterResource(id = R.drawable.empty_box),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            painter = painterResource(id = R.drawable.empty_list),
+            contentScale = ContentScale.Fit,
             contentDescription = null
         )
         Text(
@@ -410,6 +418,50 @@ private fun EmptyLocation(modifier: Modifier) {
             style = MaterialTheme.typography.bodyMedium
         )
     }
+}
+
+@Composable
+private fun ErrorPagingItem(modifier: Modifier) {
+    ElevatedCard(
+        shape = RoundedCornerShape(10)
+    ) {
+        Row(
+            modifier = modifier.size(
+                width = 256.dp,
+                height = 96.dp
+            ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            ErrorItemImage(
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+            )
+            ErrorItemMessage(
+                modifier = modifier.weight(1f)
+            )
+        }
+    }
+}
+
+@Composable
+private fun ErrorItemMessage(modifier: Modifier) {
+    Text(
+        modifier = modifier.padding(top = 8.dp),
+        text = "Something happened \uD83D\uDE25",
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.bodySmall
+    )
+}
+
+@Composable
+private fun ErrorItemImage(modifier: Modifier) {
+    Image(
+        modifier = modifier,
+        painter = painterResource(id = R.drawable.error_sign),
+        contentDescription = "location load error",
+        contentScale = ContentScale.Crop
+    )
 }
 
 @Composable
