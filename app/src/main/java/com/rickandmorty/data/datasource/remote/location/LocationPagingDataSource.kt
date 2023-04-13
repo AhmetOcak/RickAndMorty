@@ -12,10 +12,11 @@ class LocationPagingDataSource @Inject constructor(private val api: LocationApi)
         val page = params.key ?: STARTING_PAGE_INDEX
         return try {
             val response = api.getLocations(page)
+            val pageCount = response.info?.pages ?: 0
             LoadResult.Page(
                 data = response.results,
                 prevKey = if (page == STARTING_PAGE_INDEX) null else page.minus(1),
-                nextKey = if (response.results.isEmpty()) null else page.plus(1)
+                nextKey = if (response.results.isEmpty() || page == pageCount) null else page.plus(1)
             )
         } catch (e: Exception) {
             return LoadResult.Error(e)
