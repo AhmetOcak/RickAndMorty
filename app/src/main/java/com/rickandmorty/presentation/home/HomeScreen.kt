@@ -25,14 +25,25 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
 import com.rickandmorty.core.common.setLocationImage
 import com.rickandmorty.core.ui.component.CustomImage
 import com.rickandmorty.core.ui.theme.NeonGreen400
 import com.rickandmorty.data.datasource.remote.location.entity.Results
+import com.rickandmorty.domain.model.character.Character
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateCharacterDetailScreen: (Character) -> Unit
+) {
+    val systemUiController = rememberSystemUiController()
+
+    SideEffect {
+        systemUiController.setStatusBarColor(darkIcons = false, color = Color.Transparent)
+    }
 
     val locations = viewModel.getLocations().collectAsLazyPagingItems()
 
@@ -42,7 +53,8 @@ fun HomeScreen(modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltVie
         getCharacters = { viewModel.getCharacters(it) },
         setCharacterGenderImg = { viewModel.setCharacterGenderImage(it) },
         setCharacterStateError = { viewModel.setCharacterStateError() },
-        viewModel = viewModel
+        viewModel = viewModel,
+        onNavigateCharacterDetailScreen = { onNavigateCharacterDetailScreen(it) }
     )
 }
 
@@ -53,7 +65,8 @@ private fun HomeScreenContent(
     setCharacterGenderImg: (String) -> Int,
     getCharacters: (ArrayList<String>) -> Unit,
     setCharacterStateError: () -> Unit,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    onNavigateCharacterDetailScreen: (Character) -> Unit
 ) {
     Scaffold(
         modifier = modifier.fillMaxSize()
@@ -77,7 +90,8 @@ private fun HomeScreenContent(
             CharactersSection(
                 modifier = modifier,
                 characterState = viewModel.characterState.collectAsState().value,
-                setCharacterGenderImg = setCharacterGenderImg
+                setCharacterGenderImg = setCharacterGenderImg,
+                onNavigateCharacterDetailScreen = onNavigateCharacterDetailScreen
             )
         }
     }
@@ -123,12 +137,12 @@ private fun LocationsSection(
         }
 
         onLoadStateRefresh(
-            locations, 
+            locations,
             modifier,
             setCharacterStateError = setCharacterStateError
         )
         onLoadStateAppend(
-            locations, 
+            locations,
             modifier
         )
     }
@@ -171,7 +185,7 @@ private fun LazyListScope.onLoadStateRefresh(
         is LoadState.Error -> {
             setCharacterStateError()
             Log.e("load state refresh error", state.error.stackTraceToString())
-            item { 
+            item {
                 ErrorPagingItem(modifier = modifier)
             }
         }
@@ -193,7 +207,8 @@ private fun LazyListScope.onLoadStateRefresh(
 private fun CharactersSection(
     modifier: Modifier,
     characterState: CharacterState,
-    setCharacterGenderImg: (String) -> Int
+    setCharacterGenderImg: (String) -> Int,
+    onNavigateCharacterDetailScreen: (Character) -> Unit
 ) {
     when (characterState) {
         is CharacterState.Loading -> {
@@ -215,11 +230,12 @@ private fun CharactersSection(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     items(characterState.data, key = { it.id }) {
-                        Character(
+                        CharacterShowPlace(
                             modifier = modifier,
                             characterImage = it.image,
                             characterName = it.name,
-                            genderImage = setCharacterGenderImg(it.gender)
+                            genderImage = setCharacterGenderImg(it.gender),
+                            onCharacterClick = { onNavigateCharacterDetailScreen(it) }
                         )
                     }
                 }
@@ -256,17 +272,18 @@ private fun GetCharactersFailMessage(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun Character(
+private fun CharacterShowPlace(
     modifier: Modifier,
     characterImage: String,
     characterName: String,
-    genderImage: Int
+    genderImage: Int,
+    onCharacterClick: () -> Unit
 ) {
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
             .height(192.dp),
-        onClick = {},
+        onClick = onCharacterClick,
         shape = RoundedCornerShape(10)
     ) {
         Row(

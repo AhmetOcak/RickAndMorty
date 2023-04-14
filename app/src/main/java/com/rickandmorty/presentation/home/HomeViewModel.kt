@@ -2,6 +2,7 @@ package com.rickandmorty.presentation.home
 
 import android.location.Location
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
