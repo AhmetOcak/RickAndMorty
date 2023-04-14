@@ -313,9 +313,6 @@ fun setLocationImage(locationName: String): Int {
         LocationNames.ricks_consciousness -> {
             R.drawable.ricks_consciousness
         }
-        LocationNames.zigerions_base -> {
-            R.drawable.zigerions_base
-        }
         LocationNames.birdpersons_consciousness -> {
             R.drawable.birdpersons_consciousness
         }
@@ -352,8 +349,11 @@ fun setLocationImage(locationName: String): Int {
         LocationNames.the_ocean -> {
             R.drawable.the_ocean
         }
-        LocationNames.defances_ship -> {
+        LocationNames.defiances_ship -> {
             R.drawable.defiance_ship
+        }
+        LocationNames.defiance_base -> {
+            R.drawable.defiances_base
         }
         LocationNames.gaia -> {
             R.drawable.gaia
@@ -507,7 +507,8 @@ object LocationNames {
     const val elemental_rings = "Elemental Rings"
     const val narnia_dimension = "Narnia Dimension"
     const val the_ocean = "The Ocean"
-    const val defances_ship = "Defiance's Base"
+    const val defiances_ship = "Defiance's Ship"
+    const val defiance_base = "Defiance's Base"
     const val gaia = "Gaia"
     const val nx_five_planet_remover = "NX-5 Planet Remover"
     const val near_duplicate_reality = "Near-Duplicate Reality"
