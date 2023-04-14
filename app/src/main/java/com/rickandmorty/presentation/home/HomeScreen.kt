@@ -28,6 +28,7 @@ import androidx.paging.compose.items
 import com.rickandmorty.R
 import com.rickandmorty.core.common.setLocationImage
 import com.rickandmorty.core.ui.component.CustomImage
+import com.rickandmorty.core.ui.theme.NeonGreen400
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 
 @Composable
@@ -114,7 +115,7 @@ private fun LocationsSection(
             )
 
             // init character list
-            // first location is equal 1, soo we need get first item from itemSnapshotList
+            // first location id is equal 1, soo we need get first item from itemSnapshotList
             if (!isCharacterListInit && locations.itemSnapshotList.items.isNotEmpty()) {
                 getCharacters(locations.itemSnapshotList.items[0].residents)
                 isCharacterListInit = true
@@ -180,7 +181,7 @@ private fun LazyListScope.onLoadStateRefresh(
                     modifier = modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator(color = Color(0xFF39FF14))
+                    CircularProgressIndicator(color = NeonGreen400)
                 }
             }
         }
