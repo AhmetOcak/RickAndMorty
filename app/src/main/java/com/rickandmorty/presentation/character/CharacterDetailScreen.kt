@@ -2,6 +2,7 @@ package com.rickandmorty.presentation.character
 
 import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -35,9 +36,13 @@ fun CharacterDetailScreen(
     }
 
     val systemUiController = rememberSystemUiController()
+    val isSystemInDarkTheme = isSystemInDarkTheme()
 
     SideEffect {
-        systemUiController.setStatusBarColor(darkIcons = true, color = Color.Transparent)
+        systemUiController.setStatusBarColor(
+            darkIcons = !isSystemInDarkTheme,
+            color = Color.Transparent
+        )
     }
 
     CharacterDetailScreenContent(
