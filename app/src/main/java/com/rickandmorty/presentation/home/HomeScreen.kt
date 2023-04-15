@@ -3,6 +3,7 @@ package com.rickandmorty.presentation.home
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -356,7 +357,10 @@ private fun Location(
             }
         },
         colors = CardDefaults.elevatedCardColors(
-            containerColor = if (selectedLocationId != locationId) Color.LightGray else MaterialTheme.colorScheme.surface
+            containerColor = if (selectedLocationId != locationId)
+                if (isSystemInDarkTheme()) Color.Gray else Color.LightGray
+            else
+                MaterialTheme.colorScheme.surface
         )
     ) {
         Row(
