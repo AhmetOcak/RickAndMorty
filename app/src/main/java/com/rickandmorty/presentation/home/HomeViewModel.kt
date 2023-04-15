@@ -1,8 +1,6 @@
 package com.rickandmorty.presentation.home
 
-import android.location.Location
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -23,19 +21,14 @@ private const val exceptionMessage = "Something went wrong. Please try again lat
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCharacterUseCase: GetCharacterUseCase,
-    private val locationRepository: LocationRepository
+    locationRepository: LocationRepository
 ) : ViewModel() {
 
     private val _characterState = MutableStateFlow<CharacterState>(CharacterState.Loading)
     val characterState = _characterState.asStateFlow()
 
-    private var locations: Location? = null
-
-    init {
-        getLocations()
-    }
-
-    fun getLocations() = locationRepository.getLocations().cachedIn(viewModelScope)
+    private val _locations =  locationRepository.getLocations().cachedIn(viewModelScope)
+    val locations = _locations
 
     fun getCharacters(residents: ArrayList<String>) = viewModelScope.launch(Dispatchers.IO) {
         val characterIds = arrayListOf<Int>()

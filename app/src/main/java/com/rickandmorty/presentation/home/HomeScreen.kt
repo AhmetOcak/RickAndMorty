@@ -1,6 +1,5 @@
 package com.rickandmorty.presentation.home
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
@@ -30,7 +28,9 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
 import com.rickandmorty.core.common.setLocationImage
 import com.rickandmorty.core.ui.component.CustomImage
-import com.rickandmorty.core.ui.theme.NeonGreen400
+import com.rickandmorty.core.ui.component.onLoadStateAppend
+import com.rickandmorty.core.ui.component.onLoadStateRefresh
+import com.rickandmorty.core.ui.component.rememberLazyListState
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 import com.rickandmorty.domain.model.character.Character
 
@@ -46,11 +46,9 @@ fun HomeScreen(
         systemUiController.setStatusBarColor(darkIcons = false, color = Color.Transparent)
     }
 
-    val locations = viewModel.getLocations().collectAsLazyPagingItems()
-
     HomeScreenContent(
         modifier = modifier,
-        locations = locations,
+        locations = viewModel.locations.collectAsLazyPagingItems(),
         getCharacters = { viewModel.getCharacters(it) },
         setCharacterGenderImg = { viewModel.setCharacterGenderImage(it) },
         setCharacterStateError = { viewModel.setCharacterStateError() },
@@ -113,7 +111,8 @@ private fun LocationsSection(
             .fillMaxWidth()
             .padding(top = LocalConfiguration.current.screenHeightDp.dp / 3 - 48.dp),
         contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        state = locations.rememberLazyListState()
     ) {
         items(locations, key = { it.id }) {
             Location(
@@ -140,7 +139,7 @@ private fun LocationsSection(
         onLoadStateRefresh(
             locations,
             modifier,
-            setCharacterStateError = setCharacterStateError
+            setCharacterStateError
         )
         onLoadStateAppend(
             locations,
@@ -149,59 +148,84 @@ private fun LocationsSection(
     }
 }
 
-private fun LazyListScope.onLoadStateAppend(
-    locations: LazyPagingItems<Results>,
-    modifier: Modifier
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun Location(
+    modifier: Modifier,
+    contentImage: Int,
+    locationName: String,
+    locationId: Int,
+    residents: ArrayList<String>,
+    selectedLocationId: Int,
+    onClick: (Int, ArrayList<String>) -> Unit
 ) {
-    when (val state = locations.loadState.append) {
-        is LoadState.Error -> {
-            item {
-                ErrorPagingItem(modifier = modifier)
+    ElevatedCard(
+        shape = RoundedCornerShape(10),
+        onClick = {
+            // Seçili bir lokasyona ikinci kez tıklandığında, karakterleri çağırma fonksiyonunun
+            // tekrar çağrılmasını engelliyoruz.
+            if (locationId != selectedLocationId) {
+                onClick(locationId, residents)
             }
-            Log.e("load state append error", state.error.stackTraceToString())
+        },
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = if (selectedLocationId != locationId)
+                if (isSystemInDarkTheme()) Color.Gray else Color.LightGray
+            else
+                MaterialTheme.colorScheme.surface
+        )
+    ) {
+        Row(
+            modifier = modifier.size(
+                width = 256.dp,
+                height = 96.dp
+            ),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            LocationImage(
+                modifier = modifier
+                    .weight(1f)
+                    .fillMaxSize(),
+                contentImage = contentImage,
+                isSelected = selectedLocationId == locationId
+            )
+            LocationName(
+                modifier = modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp),
+                locationName = locationName
+            )
         }
-        is LoadState.Loading -> {
-            item {
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    CircularProgressIndicator(color = Color(0xFF39FF14))
-                }
-            }
-        }
-        else -> {}
     }
 }
 
-private fun LazyListScope.onLoadStateRefresh(
-    locations: LazyPagingItems<Results>,
+@Composable
+private fun LocationName(modifier: Modifier, locationName: String) {
+    Text(
+        modifier = modifier,
+        text = locationName,
+        style = MaterialTheme.typography.bodySmall,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun LocationImage(
     modifier: Modifier,
-    setCharacterStateError: () -> Unit
+    contentImage: Int,
+    isSelected: Boolean
 ) {
-    when (val state = locations.loadState.refresh) {
-        is LoadState.Error -> {
-            setCharacterStateError()
-            Log.e("load state refresh error", state.error.stackTraceToString())
-            item {
-                ErrorPagingItem(modifier = modifier)
+    Image(
+        modifier = modifier,
+        painter = painterResource(id = contentImage),
+        contentDescription = null,
+        contentScale = ContentScale.Crop,
+        colorFilter = if (!isSelected) ColorFilter.colorMatrix(
+            ColorMatrix().apply {
+                setToSaturation(0f)
             }
-        }
-        is LoadState.Loading -> {
-            item {
-                Box(
-                    modifier = modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = NeonGreen400)
-                }
-            }
-        }
-        else -> {}
-    }
+        ) else null
+    )
 }
 
 @Composable
@@ -218,29 +242,12 @@ private fun CharactersSection(
             }
         }
         is CharacterState.Success -> {
-            if (characterState.data.isEmpty()) {
-                Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    EmptyLocation(modifier = modifier)
-                }
-            } else {
-                LazyColumn(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .navigationBarsPadding(),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(characterState.data, key = { it.id }) {
-                        CharacterShowPlace(
-                            modifier = modifier,
-                            characterImage = it.image,
-                            characterName = it.name,
-                            genderImage = setCharacterGenderImg(it.gender),
-                            onCharacterClick = { onNavigateCharacterDetailScreen(it) }
-                        )
-                    }
-                }
-            }
+            CharacterList(
+                modifier = modifier,
+                characterState = characterState,
+                setCharacterGenderImg = setCharacterGenderImg,
+                onNavigateCharacterDetailScreen = onNavigateCharacterDetailScreen
+            )
         }
         is CharacterState.Error -> {
             GetCharactersFailMessage(
@@ -248,6 +255,64 @@ private fun CharactersSection(
                 characterState = characterState
             )
         }
+    }
+}
+
+@Composable
+private fun CharacterList(
+    characterState: CharacterState.Success,
+    modifier: Modifier,
+    setCharacterGenderImg: (String) -> Int,
+    onNavigateCharacterDetailScreen: (Character) -> Unit
+) {
+    if (characterState.data.isEmpty()) {
+        Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            EmptyLocation(modifier = modifier)
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .navigationBarsPadding(),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(characterState.data, key = { it.id }) {
+                CharacterShowPlace(
+                    modifier = modifier,
+                    characterImage = it.image,
+                    characterName = it.name,
+                    genderImage = setCharacterGenderImg(it.gender),
+                    onCharacterClick = { onNavigateCharacterDetailScreen(it) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyLocation(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            painter = painterResource(id = R.drawable.empty_list),
+            contentScale = ContentScale.Fit,
+            contentDescription = null
+        )
+        Text(
+            modifier = modifier.padding(top = 8.dp),
+            text = "Apparently no one lives here.",
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
@@ -333,156 +398,6 @@ private fun CharacterGenderSymbol(modifier: Modifier, genderImage: Int) {
         modifier = modifier,
         painter = painterResource(id = genderImage),
         contentDescription = "character gender"
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun Location(
-    modifier: Modifier,
-    contentImage: Int,
-    locationName: String,
-    locationId: Int,
-    residents: ArrayList<String>,
-    selectedLocationId: Int,
-    onClick: (Int, ArrayList<String>) -> Unit
-) {
-    ElevatedCard(
-        shape = RoundedCornerShape(10),
-        onClick = {
-            // Seçili bir lokasyona ikinci kez tıklandığında, karakterleri çağırma fonksiyonunun
-            // tekrar çağrılmasını engelliyoruz.
-            if (locationId != selectedLocationId) {
-                onClick(locationId, residents)
-            }
-        },
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = if (selectedLocationId != locationId)
-                if (isSystemInDarkTheme()) Color.Gray else Color.LightGray
-            else
-                MaterialTheme.colorScheme.surface
-        )
-    ) {
-        Row(
-            modifier = modifier.size(
-                width = 256.dp,
-                height = 96.dp
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            LocationImage(
-                modifier = modifier
-                    .weight(1f)
-                    .fillMaxSize(),
-                contentImage = contentImage,
-                isSelected = selectedLocationId == locationId
-            )
-            LocationName(
-                modifier = modifier
-                    .weight(1f)
-                    .padding(horizontal = 4.dp),
-                locationName = locationName
-            )
-        }
-    }
-}
-
-@Composable
-private fun LocationName(modifier: Modifier, locationName: String) {
-    Text(
-        modifier = modifier,
-        text = locationName,
-        style = MaterialTheme.typography.bodySmall,
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-private fun LocationImage(
-    modifier: Modifier,
-    contentImage: Int,
-    isSelected: Boolean
-) {
-    Image(
-        modifier = modifier,
-        painter = painterResource(id = contentImage),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        colorFilter = if (!isSelected) ColorFilter.colorMatrix(
-            ColorMatrix().apply {
-                setToSaturation(0f)
-            }
-        ) else null
-    )
-}
-
-@Composable
-private fun EmptyLocation(modifier: Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            painter = painterResource(id = R.drawable.empty_list),
-            contentScale = ContentScale.Fit,
-            contentDescription = null
-        )
-        Text(
-            modifier = modifier.padding(top = 8.dp),
-            text = "Apparently no one lives here.",
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
-
-@Composable
-private fun ErrorPagingItem(modifier: Modifier) {
-    ElevatedCard(
-        shape = RoundedCornerShape(10)
-    ) {
-        Row(
-            modifier = modifier.size(
-                width = 256.dp,
-                height = 96.dp
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            ErrorItemImage(
-                modifier = modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-            )
-            ErrorItemMessage(
-                modifier = modifier.weight(1f)
-            )
-        }
-    }
-}
-
-@Composable
-private fun ErrorItemMessage(modifier: Modifier) {
-    Text(
-        modifier = modifier.padding(top = 8.dp),
-        text = "Something happened \uD83D\uDE25",
-        textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodySmall
-    )
-}
-
-@Composable
-private fun ErrorItemImage(modifier: Modifier) {
-    Image(
-        modifier = modifier,
-        painter = painterResource(id = R.drawable.error_sign),
-        contentDescription = "location load error",
-        contentScale = ContentScale.Crop
     )
 }
 
