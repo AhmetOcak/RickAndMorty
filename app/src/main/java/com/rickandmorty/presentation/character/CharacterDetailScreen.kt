@@ -1,9 +1,10 @@
 package com.rickandmorty.presentation.character
 
-import androidx.activity.OnBackPressedCallback
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -77,24 +78,40 @@ private fun CharacterDetailScreenContent(
         if (isCharacterDataNull) {
             NoCharacterDetail(modifier = modifier)
         } else {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(it),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CustomImage(
-                    modifier = modifier
-                        .size(275.dp)
-                        .padding(horizontal = 50.dp, vertical = 20.dp),
-                    imageUrl = characterImage
-                )
-                CharacterDetailSection(
-                    modifier = modifier,
-                    characterDetails = characterDetails
-                )
-            }
+            CharacterContent(
+                modifier = modifier,
+                paddingValues = it,
+                characterImage = characterImage,
+                characterDetails = characterDetails
+            )
         }
+    }
+}
+
+@Composable
+private fun CharacterContent(
+    modifier: Modifier,
+    paddingValues: PaddingValues,
+    characterImage: String,
+    characterDetails: MutableMap<String, String>
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CustomImage(
+            modifier = modifier
+                .size(275.dp)
+                .padding(horizontal = 50.dp, vertical = 20.dp),
+            imageUrl = characterImage
+        )
+        CharacterDetailSection(
+            modifier = modifier,
+            characterDetails = characterDetails
+        )
     }
 }
 
