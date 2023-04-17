@@ -21,6 +21,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
 import com.rickandmorty.core.ui.component.CustomImage
 import com.rickandmorty.domain.model.character.Character
+import com.rickandmorty.presentation.utils.NO_CHARACTER_DETAIL_MESSAGE
 
 @Composable
 fun CharacterDetailScreen(
@@ -238,7 +239,7 @@ private fun NoCharacterDetail(modifier: Modifier) {
 private fun NoDetailMessage(modifier: Modifier) {
     Text(
         modifier = modifier,
-        text = "It looks like we don't have any information for this character.",
+        text = NO_CHARACTER_DETAIL_MESSAGE,
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center
     )

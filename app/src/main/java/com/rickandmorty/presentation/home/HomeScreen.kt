@@ -33,6 +33,8 @@ import com.rickandmorty.core.ui.component.onLoadStateRefresh
 import com.rickandmorty.core.ui.component.rememberLazyListState
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 import com.rickandmorty.domain.model.character.Character
+import com.rickandmorty.presentation.utils.EMPTY_LOCATION_MESSAGE
+import com.rickandmorty.presentation.utils.HOME_PAGE_TITLE
 
 @Composable
 fun HomeScreen(
@@ -129,7 +131,7 @@ private fun LocationsSection(
             )
 
             // init character list
-            // first location id is equal 1, soo we need get first item from itemSnapshotList
+            // first location id is equal 1, so we need to get first item from itemSnapshotList
             if (!isCharacterListInit && locations.itemSnapshotList.items.isNotEmpty()) {
                 getCharacters(locations.itemSnapshotList.items[0].residents)
                 isCharacterListInit = true
@@ -309,7 +311,7 @@ private fun EmptyLocation(modifier: Modifier) {
         )
         Text(
             modifier = modifier.padding(top = 8.dp),
-            text = "Apparently no one lives here.",
+            text = EMPTY_LOCATION_MESSAGE,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -405,7 +407,7 @@ private fun CharacterGenderSymbol(modifier: Modifier, genderImage: Int) {
 private fun PageTitle(modifier: Modifier) {
     Text(
         modifier = modifier,
-        text = "Rick and Morty",
+        text = HOME_PAGE_TITLE,
         style = MaterialTheme.typography.displayLarge,
         textAlign = TextAlign.Center
     )

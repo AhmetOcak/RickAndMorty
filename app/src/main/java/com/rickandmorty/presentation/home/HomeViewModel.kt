@@ -9,14 +9,13 @@ import com.rickandmorty.core.common.Response
 import com.rickandmorty.domain.repository.LocationRepository
 import com.rickandmorty.domain.usecase.character.GetCharacterUseCase
 import com.rickandmorty.presentation.utils.CharacterGender
+import com.rickandmorty.presentation.utils.EXCEPTION_MESSAGE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-private const val exceptionMessage = "Something went wrong. Please try again later."
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -39,7 +38,7 @@ class HomeViewModel @Inject constructor(
                     extractCharacterId(it)
                 )
             } catch (e: Exception) {
-                _characterState.value = CharacterState.Error(message = exceptionMessage)
+                _characterState.value = CharacterState.Error(message = EXCEPTION_MESSAGE)
             }
         }
 
@@ -89,6 +88,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun setCharacterStateError() {
-        _characterState.value = CharacterState.Error(message = exceptionMessage)
+        _characterState.value = CharacterState.Error(message = EXCEPTION_MESSAGE)
     }
 }
