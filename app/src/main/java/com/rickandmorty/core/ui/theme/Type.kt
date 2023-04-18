@@ -60,5 +60,10 @@ val Typography = Typography(
         fontFamily = RickAndMorty,
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp
+    ),
+    displaySmall = TextStyle(
+        fontFamily = Avenir,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp
     )
 )

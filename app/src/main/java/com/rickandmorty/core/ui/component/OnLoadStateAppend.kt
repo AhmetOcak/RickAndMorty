@@ -1,5 +1,6 @@
 package com.rickandmorty.core.ui.component
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
@@ -11,6 +12,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.rickandmorty.core.ui.theme.NeonGreen400
 import com.rickandmorty.data.datasource.remote.location.entity.Results
+import com.rickandmorty.presentation.main.OrientationState
 
 fun LazyListScope.onLoadStateAppend(
     locations: LazyPagingItems<Results>,
@@ -23,12 +25,19 @@ fun LazyListScope.onLoadStateAppend(
             }
             Log.e("load state append error", state.error.stackTraceToString())
         }
+
         is LoadState.Loading -> {
             item {
                 Row(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(
+                            horizontal = 16.dp,
+                            vertical = if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT)
+                                PORTRAIT_HEIGHT
+                            else
+                                0.dp
+                        ),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -36,6 +45,7 @@ fun LazyListScope.onLoadStateAppend(
                 }
             }
         }
+
         else -> {}
     }
 }

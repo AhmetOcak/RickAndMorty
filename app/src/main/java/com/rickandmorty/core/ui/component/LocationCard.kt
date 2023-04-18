@@ -29,11 +29,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.rickandmorty.presentation.main.OrientationState
 
-private val PORTRAIT_HEIGHT = 96.dp
-private val LANDSCAPE_HEIGHT = 48.dp
+val PORTRAIT_HEIGHT = 96.dp
+val LANDSCAPE_HEIGHT = 48.dp
 
-private val PORTRAIT_WIDTH = 256.dp
-private val LANDSCAPE_WIDTH = 128.dp
+val PORTRAIT_WIDTH = 256.dp
+val LANDSCAPE_WIDTH = 128.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
