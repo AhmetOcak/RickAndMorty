@@ -29,6 +29,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.rickandmorty.presentation.main.OrientationState
 
+private val PORTRAIT_HEIGHT = 96.dp
+private val LANDSCAPE_HEIGHT = 48.dp
+
+private val PORTRAIT_WIDTH = 256.dp
+private val LANDSCAPE_WIDTH = 128.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Location(
@@ -43,9 +49,9 @@ fun Location(
     val locationHeight by remember {
         mutableStateOf(
             if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
-                96.dp
+                PORTRAIT_HEIGHT
             } else {
-                48.dp
+                LANDSCAPE_HEIGHT
             }
         )
     }
@@ -53,9 +59,9 @@ fun Location(
     val locationWidth by remember {
         mutableStateOf(
             if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
-                256.dp
+                PORTRAIT_WIDTH
             } else {
-                192.dp
+                LANDSCAPE_WIDTH
             }
         )
     }

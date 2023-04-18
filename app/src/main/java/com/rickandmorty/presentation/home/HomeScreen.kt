@@ -5,6 +5,9 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,6 +37,9 @@ import com.rickandmorty.domain.model.character.Character
 import com.rickandmorty.presentation.main.OrientationState
 import com.rickandmorty.presentation.utils.EMPTY_LOCATION_MESSAGE
 import com.rickandmorty.presentation.utils.HOME_PAGE_TITLE
+
+private val PORTRAIT_PADDING = 48.dp
+private val LANDSCAPE_PADDING = 24.dp
 
 @Composable
 fun HomeScreen(
@@ -110,9 +116,9 @@ private fun LocationsSection(
     val locationPadding by remember {
         mutableStateOf(
             if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
-                48.dp
+                PORTRAIT_PADDING
             } else {
-                24.dp
+                LANDSCAPE_PADDING
             }
         )
     }
@@ -203,22 +209,74 @@ private fun CharacterList(
             EmptyLocation(modifier = modifier)
         }
     } else {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxWidth()
-                .navigationBarsPadding(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(characterState.data, key = { it.id }) {
-                CharacterShowPlace(
-                    modifier = modifier,
-                    characterImage = it.image,
-                    characterName = it.name,
-                    genderImage = setCharacterGenderImg(it.gender),
-                    onCharacterClick = { onNavigateCharacterDetailScreen(it) }
-                )
-            }
+        if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
+            PortraitCharacterList(
+                modifier = modifier,
+                characterState = characterState,
+                setCharacterGenderImg = setCharacterGenderImg,
+                onNavigateCharacterDetailScreen = onNavigateCharacterDetailScreen
+            )
+        } else {
+            LandscapeCharacterList(
+                modifier = modifier,
+                characterState = characterState,
+                setCharacterGenderImg = setCharacterGenderImg,
+                onNavigateCharacterDetailScreen = onNavigateCharacterDetailScreen
+            )
+        }
+    }
+}
+
+@Composable
+private fun PortraitCharacterList(
+    modifier: Modifier,
+    characterState: CharacterState.Success,
+    setCharacterGenderImg: (String) -> Int,
+    onNavigateCharacterDetailScreen: (Character) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(characterState.data, key = { it.id }) {
+            CharacterShowPlace(
+                modifier = modifier,
+                characterImage = it.image,
+                characterName = it.name,
+                genderImage = setCharacterGenderImg(it.gender),
+                onCharacterClick = { onNavigateCharacterDetailScreen(it) }
+            )
+        }
+    }
+}
+
+@Composable
+private fun LandscapeCharacterList(
+    modifier: Modifier,
+    characterState: CharacterState.Success,
+    setCharacterGenderImg: (String) -> Int,
+    onNavigateCharacterDetailScreen: (Character) -> Unit
+) {
+    LazyVerticalGrid(
+        modifier = modifier
+            .fillMaxWidth()
+            .navigationBarsPadding(),
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 32.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(characterState.data, key = { it.id }) {
+            CharacterShowPlace(
+                modifier = modifier,
+                characterImage = it.image,
+                characterName = it.name,
+                genderImage = setCharacterGenderImg(it.gender),
+                onCharacterClick = { onNavigateCharacterDetailScreen(it) }
+            )
         }
     }
 }
@@ -226,51 +284,61 @@ private fun CharacterList(
 @Composable
 private fun EmptyLocation(modifier: Modifier) {
     if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Image(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
-                painter = painterResource(id = R.drawable.empty_list),
-                contentScale = ContentScale.Fit,
-                contentDescription = null
-            )
-            Text(
-                modifier = modifier.padding(top = 8.dp),
-                text = EMPTY_LOCATION_MESSAGE,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+        EmptyLocationPortrait(modifier)
     } else {
-        Row(
+        EmptyLocationLandscape(modifier)
+    }
+}
+
+@Composable
+private fun EmptyLocationPortrait(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
             modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                modifier = modifier
-                    .fillMaxHeight()
-                    .padding(vertical = 16.dp),
-                painter = painterResource(id = R.drawable.empty_list),
-                contentScale = ContentScale.Fit,
-                contentDescription = null
-            )
-            Spacer(modifier = modifier.width(32.dp))
-            Text(
-                text = EMPTY_LOCATION_MESSAGE,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            painter = painterResource(id = R.drawable.empty_list),
+            contentScale = ContentScale.Fit,
+            contentDescription = null
+        )
+        Text(
+            modifier = modifier.padding(top = 8.dp),
+            text = EMPTY_LOCATION_MESSAGE,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+private fun EmptyLocationLandscape(modifier: Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            modifier = modifier
+                .fillMaxHeight()
+                .padding(vertical = 16.dp),
+            painter = painterResource(id = R.drawable.empty_list),
+            contentScale = ContentScale.Fit,
+            contentDescription = null
+        )
+        Spacer(modifier = modifier.width(32.dp))
+        Text(
+            text = EMPTY_LOCATION_MESSAGE,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
