@@ -28,6 +28,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
 import com.rickandmorty.core.common.setLocationImage
 import com.rickandmorty.core.ui.component.CharacterShowPlace
+import com.rickandmorty.core.ui.component.LoadingIndicator
 import com.rickandmorty.core.ui.component.Location
 import com.rickandmorty.core.ui.component.onLoadStateAppend
 import com.rickandmorty.core.ui.component.onLoadStateRefresh
@@ -174,9 +175,7 @@ private fun CharactersSection(
 ) {
     when (characterState) {
         is CharacterState.Loading -> {
-            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
-            }
+            LoadingIndicator(modifier = modifier.fillMaxSize())
         }
 
         is CharacterState.Success -> {
