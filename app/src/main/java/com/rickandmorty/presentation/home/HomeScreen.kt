@@ -1,19 +1,16 @@
 package com.rickandmorty.presentation.home
 
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -27,12 +24,14 @@ import androidx.paging.compose.items
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
 import com.rickandmorty.core.common.setLocationImage
-import com.rickandmorty.core.ui.component.CustomImage
+import com.rickandmorty.core.ui.component.CharacterShowPlace
+import com.rickandmorty.core.ui.component.Location
 import com.rickandmorty.core.ui.component.onLoadStateAppend
 import com.rickandmorty.core.ui.component.onLoadStateRefresh
 import com.rickandmorty.core.ui.component.rememberLazyListState
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 import com.rickandmorty.domain.model.character.Character
+import com.rickandmorty.presentation.main.OrientationState
 import com.rickandmorty.presentation.utils.EMPTY_LOCATION_MESSAGE
 import com.rickandmorty.presentation.utils.HOME_PAGE_TITLE
 
@@ -108,10 +107,20 @@ private fun LocationsSection(
     var selectedLocationId by rememberSaveable { mutableStateOf(1) }
     var isCharacterListInit by rememberSaveable { mutableStateOf(false) }
 
+    val locationPadding by remember {
+        mutableStateOf(
+            if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
+                48.dp
+            } else {
+                24.dp
+            }
+        )
+    }
+
     LazyRow(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = LocalConfiguration.current.screenHeightDp.dp / 3 - 48.dp),
+            .padding(top = LocalConfiguration.current.screenHeightDp.dp / 3 - locationPadding),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         state = locations.rememberLazyListState()
@@ -150,86 +159,6 @@ private fun LocationsSection(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun Location(
-    modifier: Modifier,
-    contentImage: Int,
-    locationName: String,
-    locationId: Int,
-    residents: ArrayList<String>,
-    selectedLocationId: Int,
-    onClick: (Int, ArrayList<String>) -> Unit
-) {
-    ElevatedCard(
-        shape = RoundedCornerShape(10),
-        onClick = {
-            // Seçili bir lokasyona ikinci kez tıklandığında, karakterleri çağırma fonksiyonunun
-            // tekrar çağrılmasını engelliyoruz.
-            if (locationId != selectedLocationId) {
-                onClick(locationId, residents)
-            }
-        },
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = if (selectedLocationId != locationId)
-                if (isSystemInDarkTheme()) Color.Gray else Color.LightGray
-            else
-                MaterialTheme.colorScheme.surface
-        )
-    ) {
-        Row(
-            modifier = modifier.size(
-                width = 256.dp,
-                height = 96.dp
-            ),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            LocationImage(
-                modifier = modifier
-                    .weight(1f)
-                    .fillMaxSize(),
-                contentImage = contentImage,
-                isSelected = selectedLocationId == locationId
-            )
-            LocationName(
-                modifier = modifier
-                    .weight(1f)
-                    .padding(horizontal = 4.dp),
-                locationName = locationName
-            )
-        }
-    }
-}
-
-@Composable
-private fun LocationName(modifier: Modifier, locationName: String) {
-    Text(
-        modifier = modifier,
-        text = locationName,
-        style = MaterialTheme.typography.bodySmall,
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-private fun LocationImage(
-    modifier: Modifier,
-    contentImage: Int,
-    isSelected: Boolean
-) {
-    Image(
-        modifier = modifier,
-        painter = painterResource(id = contentImage),
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        colorFilter = if (!isSelected) ColorFilter.colorMatrix(
-            ColorMatrix().apply {
-                setToSaturation(0f)
-            }
-        ) else null
-    )
-}
-
 @Composable
 private fun CharactersSection(
     modifier: Modifier,
@@ -243,6 +172,7 @@ private fun CharactersSection(
                 CircularProgressIndicator()
             }
         }
+
         is CharacterState.Success -> {
             CharacterList(
                 modifier = modifier,
@@ -251,6 +181,7 @@ private fun CharactersSection(
                 onNavigateCharacterDetailScreen = onNavigateCharacterDetailScreen
             )
         }
+
         is CharacterState.Error -> {
             GetCharactersFailMessage(
                 modifier = modifier,
@@ -294,27 +225,52 @@ private fun CharacterList(
 
 @Composable
 private fun EmptyLocation(modifier: Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
+    if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
+        Column(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            painter = painterResource(id = R.drawable.empty_list),
-            contentScale = ContentScale.Fit,
-            contentDescription = null
-        )
-        Text(
-            modifier = modifier.padding(top = 8.dp),
-            text = EMPTY_LOCATION_MESSAGE,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
-        )
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Image(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                painter = painterResource(id = R.drawable.empty_list),
+                contentScale = ContentScale.Fit,
+                contentDescription = null
+            )
+            Text(
+                modifier = modifier.padding(top = 8.dp),
+                text = EMPTY_LOCATION_MESSAGE,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
+    } else {
+        Row(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                modifier = modifier
+                    .fillMaxHeight()
+                    .padding(vertical = 16.dp),
+                painter = painterResource(id = R.drawable.empty_list),
+                contentScale = ContentScale.Fit,
+                contentDescription = null
+            )
+            Spacer(modifier = modifier.width(32.dp))
+            Text(
+                text = EMPTY_LOCATION_MESSAGE,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
 
@@ -336,71 +292,6 @@ private fun GetCharactersFailMessage(
         characterState.message,
         Toast.LENGTH_LONG
     ).show()
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CharacterShowPlace(
-    modifier: Modifier,
-    characterImage: String,
-    characterName: String,
-    genderImage: Int,
-    onCharacterClick: () -> Unit
-) {
-    ElevatedCard(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(192.dp),
-        onClick = onCharacterClick,
-        shape = RoundedCornerShape(10)
-    ) {
-        Row(
-            modifier = modifier.fillMaxSize(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            CustomImage(
-                modifier = modifier
-                    .weight(2f)
-                    .fillMaxSize(),
-                imageUrl = characterImage
-            )
-            Box(
-                modifier = modifier
-                    .weight(3f)
-                    .fillMaxSize(), contentAlignment = Alignment.Center
-            ) {
-                CharacterGenderSymbol(
-                    modifier = modifier.size(144.dp),
-                    genderImage = genderImage
-                )
-                CharacterName(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp), characterName = characterName
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun CharacterName(modifier: Modifier, characterName: String) {
-    Text(
-        modifier = modifier,
-        text = characterName,
-        style = MaterialTheme.typography.displayMedium,
-        textAlign = TextAlign.Center
-    )
-}
-
-@Composable
-private fun CharacterGenderSymbol(modifier: Modifier, genderImage: Int) {
-    Image(
-        modifier = modifier,
-        painter = painterResource(id = genderImage),
-        contentDescription = "character gender"
-    )
 }
 
 @Composable
