@@ -35,6 +35,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             val characterIds = arrayListOf<Int>()
 
+            // In order to get the characters from the API, we extract the character ids from the residents URL.
             residents.forEach {
                 try {
                     characterIds.add(
@@ -45,7 +46,9 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            // Eğer characterIds boş ise, seçili lokasyonda resident yok demektir.
+            // If characterIds is empty, the selected location does not have a resident.
+            // If the characterId list is empty, we give an empty arrayList as data.
+            // In Home Screen, it will be checked whether this arrayList is empty and a UI will be drawn accordingly.
             if (characterIds.isEmpty()) {
                 _characterState.value = CharacterState.Success(data = arrayListOf())
             } else {

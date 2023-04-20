@@ -23,6 +23,8 @@ import com.rickandmorty.core.ui.component.CustomImage
 import com.rickandmorty.domain.model.character.Character
 import com.rickandmorty.presentation.utils.NO_CHARACTER_DETAIL_MESSAGE
 
+private val CHARACTER_IMAGE_SIZE = 275.dp
+
 @Composable
 fun CharacterDetailScreen(
     modifier: Modifier = Modifier,
@@ -105,7 +107,7 @@ private fun CharacterContent(
     ) {
         CustomImage(
             modifier = modifier
-                .size(275.dp)
+                .size(CHARACTER_IMAGE_SIZE)
                 .padding(horizontal = 50.dp, vertical = 20.dp),
             imageUrl = characterImage
         )

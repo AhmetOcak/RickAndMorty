@@ -21,6 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
+private val CARD_HEIGHT = 192.dp
+private val GENDER_SYMBOL_SIZE = 144.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterShowPlace(
@@ -33,7 +36,7 @@ fun CharacterShowPlace(
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth()
-            .height(192.dp),
+            .height(CARD_HEIGHT),
         onClick = onCharacterClick,
         shape = RoundedCornerShape(10)
     ) {
@@ -54,13 +57,14 @@ fun CharacterShowPlace(
                     .fillMaxSize(), contentAlignment = Alignment.Center
             ) {
                 CharacterGenderSymbol(
-                    modifier = modifier.size(144.dp),
+                    modifier = modifier.size(GENDER_SYMBOL_SIZE),
                     genderImage = genderImage
                 )
                 CharacterName(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp), characterName = characterName
+                        .padding(horizontal = 16.dp),
+                    characterName = characterName
                 )
             }
         }

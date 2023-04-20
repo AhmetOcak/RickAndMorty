@@ -1,7 +1,6 @@
 package com.rickandmorty.core.ui.component
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -58,8 +57,6 @@ fun ErrorPagingItem(modifier: Modifier) {
             }
         )
     }
-
-    Log.d("STATE", "triggered")
 
     ElevatedCard(
         shape = RoundedCornerShape(10)

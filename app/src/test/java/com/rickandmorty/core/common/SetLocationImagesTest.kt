@@ -1,6 +1,8 @@
 package com.rickandmorty.core.common
 
 import com.rickandmorty.R
+import com.rickandmorty.presentation.home.LocationNames
+import com.rickandmorty.presentation.home.setLocationImage
 import org.junit.Assert
 import org.junit.Test
 

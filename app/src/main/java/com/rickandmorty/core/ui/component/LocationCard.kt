@@ -69,12 +69,12 @@ fun Location(
     ElevatedCard(
         shape = RoundedCornerShape(10),
         onClick = {
-            // Seçili bir lokasyona ikinci kez tıklandığında, karakterleri çağırma fonksiyonunun
-            // tekrar çağrılmasını engelliyoruz.
+            // We prevent the callback function from calling characters when a selected location is clicked a second time.
             if (locationId != selectedLocationId) {
                 onClick(locationId, residents)
             }
         },
+        // If the location is not selected, the card color is made gray.
         colors = CardDefaults.elevatedCardColors(
             containerColor = if (selectedLocationId != locationId)
                 if (isSystemInDarkTheme()) Color.Gray else Color.LightGray
@@ -109,7 +109,10 @@ fun Location(
 }
 
 @Composable
-private fun LocationName(modifier: Modifier, locationName: String) {
+private fun LocationName(
+    modifier: Modifier,
+    locationName: String
+) {
     Text(
         modifier = modifier,
         text = locationName,
@@ -130,6 +133,7 @@ private fun LocationImage(
         painter = painterResource(id = contentImage),
         contentDescription = null,
         contentScale = ContentScale.Crop,
+        // If the location is not selected, the image is displayed in grayscale.
         colorFilter = if (!isSelected) ColorFilter.colorMatrix(
             ColorMatrix().apply {
                 setToSaturation(0f)

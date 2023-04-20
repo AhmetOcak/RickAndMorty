@@ -43,15 +43,7 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
         }
 
         var createdDate = character.created
-        createdDate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val date = OffsetDateTime.parse(createdDate)
-            val formatter = DateTimeFormatter.ofPattern("dd MMM uuuu, HH:mm:ss", Locale.ENGLISH)
-            formatter.format(date)
-        } else {
-            val formatter = SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.ENGLISH)
-            val date = formatter.parse(createdDate)
-            date?.toString() ?: "unknown"
-        }
+        createdDate = formatCreatedDate(createdDate)
 
         characterDetails = linkedMapOf(
             STATUS to character.status,
@@ -62,6 +54,16 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
             EPISODES to episodeNumbers.toString().drop(1).dropLast(1),
             CREATED_DATE to createdDate
         )
+    }
+
+    private fun formatCreatedDate(createdDate: String) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val date = OffsetDateTime.parse(createdDate)
+        val formatter = DateTimeFormatter.ofPattern("dd MMM uuuu, HH:mm:ss", Locale.ENGLISH)
+        formatter.format(date)
+    } else {
+        val formatter = SimpleDateFormat("dd MMM yyyy, HH:mm:ss", Locale.ENGLISH)
+        val date = formatter.parse(createdDate)
+        date?.toString() ?: "unknown"
     }
 
     fun setCharacterDataNull() {

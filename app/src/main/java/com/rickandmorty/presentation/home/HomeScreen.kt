@@ -26,7 +26,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.rickandmorty.R
-import com.rickandmorty.core.common.setLocationImage
 import com.rickandmorty.core.ui.component.CharacterShowPlace
 import com.rickandmorty.core.ui.component.LoadingIndicator
 import com.rickandmorty.core.ui.component.Location
@@ -145,11 +144,14 @@ private fun LocationsSection(
                     getCharacters(residents)
                 }
             )
-
-            // init character list
-            // first location id is equal 1, so we need to get first item from itemSnapshotList
+            // In order to get the characters from the API, we first need to get the positions.
+            // Once locations are received, we use the residents of the first location to initialize the character list.
+            // First location id is equal 1, so we need to get first item from itemSnapshotList
             if (!isCharacterListInit && locations.itemSnapshotList.items.isNotEmpty()) {
                 getCharacters(locations.itemSnapshotList.items[0].residents)
+
+                // We indicate that the character list is initialized.
+                // Thus, the next process of getting characters from the API will be done according to the location to be selected.
                 isCharacterListInit = true
             }
         }

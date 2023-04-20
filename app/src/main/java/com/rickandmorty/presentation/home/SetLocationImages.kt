@@ -1,4 +1,4 @@
-package com.rickandmorty.core.common
+package com.rickandmorty.presentation.home
 
 import com.rickandmorty.R
 

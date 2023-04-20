@@ -12,6 +12,8 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class RickAndMortyApplication : Application() {
 
+    // We call the showLaunchMessage() function here because we don't want it to be called repeatedly due to configuration changes.
+
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate() {
         super.onCreate()

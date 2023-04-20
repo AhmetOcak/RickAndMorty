@@ -83,7 +83,7 @@ private fun EmptyImage(modifier: Modifier) {
 private fun ErrorImage(modifier: Modifier) {
     Image(
         modifier = modifier,
-        contentDescription = "Error",
+        contentDescription = "The image could not be loaded.",
         contentScale = ContentScale.Fit,
         painter = painterResource(id = R.drawable.error_image)
     )
