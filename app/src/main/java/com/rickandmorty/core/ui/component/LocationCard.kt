@@ -35,6 +35,19 @@ val LANDSCAPE_HEIGHT = 48.dp
 val PORTRAIT_WIDTH = 256.dp
 val LANDSCAPE_WIDTH = 128.dp
 
+/**
+ * This method is used to show the location information to the user.
+ *
+ * @param modifier the [Modifier] to be applied to this method.
+ * @param contentImage location image.
+ * @param locationName location name.
+ * @param locationId location id.
+ * @param residents residents urls of this location.
+ * @param selectedLocationId The ID of the current location that the user selects from the location list.
+ * The selected location looks different from other locations. The user can easily distinguish the
+ * location he chooses from other locations.
+ * @param onClick called when this method is clicked
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Location(

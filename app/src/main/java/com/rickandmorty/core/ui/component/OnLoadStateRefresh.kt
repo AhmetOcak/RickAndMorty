@@ -14,6 +14,15 @@ import com.rickandmorty.core.ui.theme.NeonGreen400
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 import com.rickandmorty.presentation.main.OrientationState
 
+/**
+ * This method is a Lazy Load.
+ * This method shows up when loadState is refresh.
+ * When loadState is refresh, this method shows a circular indicator to the user.
+ *
+ * @param locations paging data for the loadState.
+ * @param modifier the [Modifier] to be applied to this method.
+ * @param setCharacterStateError called when loadState is error.
+ */
 fun LazyListScope.onLoadStateRefresh(
     locations: LazyPagingItems<Results>,
     modifier: Modifier,

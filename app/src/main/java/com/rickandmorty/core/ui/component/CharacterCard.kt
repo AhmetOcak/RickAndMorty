@@ -24,6 +24,19 @@ import androidx.compose.ui.unit.dp
 private val CARD_HEIGHT = 192.dp
 private val GENDER_SYMBOL_SIZE = 144.dp
 
+/**
+ * This method shows the characteristics of the character.
+ *
+ * This method shows a character image, name and gender.
+ * This method handles click events, calling its [onCharacterClick] lambda.
+ *
+ * @param modifier the [Modifier] to be applied to this method.
+ * @param characterImage character image.
+ * @param characterName character name.
+ * @param genderImage image indicating the gender of the character.
+ * @param onCharacterClick called when this method is clicked.
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterShowPlace(

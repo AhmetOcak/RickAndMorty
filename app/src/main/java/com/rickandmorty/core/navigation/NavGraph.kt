@@ -18,6 +18,10 @@ import com.rickandmorty.domain.model.character.Origin
 import com.rickandmorty.presentation.character.CharacterDetailScreen
 import com.rickandmorty.presentation.home.HomeScreen
 
+/**
+ * @param startDestination the route of the start screen.
+ * @param navController [NavHostController]
+ */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(

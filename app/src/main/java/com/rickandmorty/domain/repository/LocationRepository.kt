@@ -6,5 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationRepository {
 
+    /**
+     * This method provide Rick And Morty locations from the API.
+     */
     fun getLocations(): Flow<PagingData<Results>>
 }

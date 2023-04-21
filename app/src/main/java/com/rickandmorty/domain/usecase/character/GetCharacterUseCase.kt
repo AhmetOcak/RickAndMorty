@@ -11,6 +11,12 @@ import javax.inject.Inject
 
 class GetCharacterUseCase @Inject constructor(private val repository: CharacterRepository) {
 
+    /**
+     * This method get characters from API.
+     *
+     * @param ids ids of the characters.
+     * @return a [Response] flow of type [Character].
+     */
     suspend operator fun invoke(ids: ArrayList<Int>): Flow<Response<ArrayList<Character>>> = flow {
         try {
             emit(Response.Loading)

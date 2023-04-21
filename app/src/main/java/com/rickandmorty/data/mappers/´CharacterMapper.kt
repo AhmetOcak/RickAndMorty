@@ -5,6 +5,9 @@ import com.rickandmorty.domain.model.character.Character
 import com.rickandmorty.domain.model.character.CharacterLocation
 import com.rickandmorty.domain.model.character.Origin
 
+/**
+ * This method maps the [CharacterDto] list to [Character] list.
+ */
 fun ArrayList<CharacterDto>.toCharacter(): ArrayList<Character> {
     val characters: ArrayList<Character> = arrayListOf()
 

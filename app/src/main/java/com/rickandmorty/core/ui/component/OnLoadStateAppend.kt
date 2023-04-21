@@ -14,6 +14,11 @@ import com.rickandmorty.core.ui.theme.NeonGreen400
 import com.rickandmorty.data.datasource.remote.location.entity.Results
 import com.rickandmorty.presentation.main.OrientationState
 
+/**
+ * This method shows up when load state is append.
+ * @param locations paging data for the loadState.
+ * @param modifier the [Modifier] to be applied to this method.
+ */
 fun LazyListScope.onLoadStateAppend(
     locations: LazyPagingItems<Results>,
     modifier: Modifier

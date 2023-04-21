@@ -26,6 +26,12 @@ import com.rickandmorty.presentation.main.OrientationState
 private val PORTRAIT_ERROR_IMG_SIZE = 64.dp
 private val LANDSCAPE_ERROR_IMG_SIZE = 32.dp
 
+
+/**
+ * This method shows up when paging list throws error.
+ *
+ * @param modifier the [Modifier] to be applied to this method.
+ */
 @Composable
 fun ErrorPagingItem(modifier: Modifier) {
     val locationHeight by remember {
