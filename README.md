@@ -101,7 +101,7 @@ Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. İlgili 
 * İlk sayfanın listelenmesi yeterlidir (20 lokasyon).
 * Seçili lokasyon ile seçili olmayan lokasyonların tasarımları farklı olmalıdır.
 
-Yatay liste verilen API'dan gelen lokasyon verileri ile doldurulmuştur. Seçili olmayan lokasyonların lokasyon resimlerine ve arka plan renklerine gri filtre uygulanmıştır. Seçili lokasyon orjinal bir şekilde gözükmektedir. Böylelikle seçili ve seçili olmayan lokasyonlar ayırt edilebilmektedir. İlgili İlgili 
+Yatay liste verilen API'dan gelen lokasyon verileri ile doldurulmuştur. Seçili olmayan lokasyonların lokasyon resimlerine ve arka plan renklerine gri filtre uygulanmıştır. Seçili lokasyon orjinal bir şekilde gözükmektedir. Böylelikle seçili ve seçili olmayan lokasyonlar ayırt edilebilmektedir. İlgili 
 [Video](#portrait-and-landing-outputs).
 
 ### Task 5 - Dikey listenin doldurulması
@@ -133,7 +133,7 @@ Detay sayfası, ana ekranda bulunan karakter listesinden bir karaktere tıkland�
 * Ana sayfadaki yatay liste scroll edilerek sona (sağa) dayandığında bir sonraki sayfa çekilmelidir.
 * Yüklenme esnasında liste sonuna loading item eklenmelidir.
 
-Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çekilebilecek başka sayfa kalmayıncaya dek her sona doğru dayandığında sayfa çeker. Yeni sayfanın yüklenmesi esnasında loading item gözükür.
+Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çekilebilecek başka sayfa kalmayıncaya dek her sona doğru dayandığında sayfa çeker. Yeni sayfanın yüklenmesi esnasında loading item gözükür. (İnternet hızının iyi olması halinde veri çok hızlı çekilebileceğinden kullanıcı lazy load'ı göremeyebilir.)
 
 
 <img src="https://user-images.githubusercontent.com/73544434/233797509-81bddc63-8474-4e59-9a52-58158e076f00.gif" width="240" height="480"/>
