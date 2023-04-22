@@ -39,7 +39,7 @@
 | Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233788682-ebc79034-740c-4514-9cfe-e010e9232070.png" width="240" height="480"/>     |
 
 
-### Portrait && Landing Outputs 📱
+### Portrait and Landing Outputs
 
 ### Portrait
 
@@ -78,6 +78,6 @@ Uygulama sorunuz bir şekilde çalışmaktadır.
 ### Task 3 - Ana sayfanın oluşturulması
 * Sayfa; başlık/logo, kayan yatay liste ve dikey listeden oluşmalıdır.
 
-Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. Video için https://github.com/AhmetOcak/RickAndMorty/edit/master/README.md#portrait--landing-outputs-
+Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. [İlgili Video](#portrait-and-landing-outputs)
 
 <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>
