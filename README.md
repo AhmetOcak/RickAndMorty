@@ -10,12 +10,16 @@
 | Ana Sayfa              | <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>      |  <img src="https://user-images.githubusercontent.com/73544434/233788690-0ece480b-b3bc-4a8c-81de-5007e244b484.png" width="240" height="480"/>    |
 | Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233788682-ebc79034-740c-4514-9cfe-e010e9232070.png" width="240" height="480"/>     |
 
-### Portrait && Landing Outputs
 
-|                        | Portrait | Landing |
-|------------------------|----------|---------|
-| App                    |          |         |
+### Portrait && Landing Outputs 📱
 
+### Portrait
+
+<video src='https://user-images.githubusercontent.com/73544434/233793555-539e13e9-a5dc-4b92-bafa-9716bf6d2f10.mp4' />
+
+### LandScape
+
+<video src='https://user-images.githubusercontent.com/73544434/233794385-dc0c2aa1-c90c-44d2-804d-db8b42355ccb.mp4' />
 
 
 ## Tech Stack 📚
