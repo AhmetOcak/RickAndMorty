@@ -110,3 +110,17 @@ API dokümanlarında 4 cinsiyet olduğu belirtilmiş. Uygulamada 4 cinsiyetide t
 * Tasarımı iletilen sayfanın geliştirilmesi gerekmektedir.
 * Dikey listeden item’a tıklandığında bu sayfa açılmalıdır.
 
+Detay sayfası, ana ekranda bulunan karakter listesinden bir karaktere tıklandığı zaman açılmaktadır. Karakter detay sayfası iletilen tasarıma uygun bir şekilde geliştirilmiştir.
+
+<img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>
+
+
+### Task 8 - Yatay kayan listeye (Lokasyon listesi) lazy load eklenmesi
+* Ana sayfadaki yatay liste scroll edilerek sona (sağa) dayandığında bir sonraki sayfa çekilmelidir.
+* Yüklenme esnasında liste sonuna loading item eklenmelidir.
+
+Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çekilebilecek başka sayfa kalmayıncaya dek her sona doğru dayandığında sayfa çeker. Yeni sayfanın yüklenmesi esnasında loading item gözükür.
+
+
+<img src="https://user-images.githubusercontent.com/73544434/233797509-81bddc63-8474-4e59-9a52-58158e076f00.gif" width="240" height="480"/>
+
