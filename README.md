@@ -10,13 +10,13 @@
 | Ana Sayfa              | <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>      |  <img src="https://user-images.githubusercontent.com/73544434/233788690-0ece480b-b3bc-4a8c-81de-5007e244b484.png" width="240" height="480"/>    |
 | Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233788682-ebc79034-740c-4514-9cfe-e010e9232070.png" width="240" height="480"/>     |
 
-## 
+### Portrait && Landing Outputs
 
-|                        | Light | Dark |
-|------------------------|-------|------|
-| Splash                 |       |      |
-| Ana Sayfa              |       |      |
-| Karakter Detay Sayfası |       |      |
+|                        | Portrait | Landing |
+|------------------------|----------|---------|
+| App                    |          |         |
+
+
 
 ## Tech Stack 📚
 
