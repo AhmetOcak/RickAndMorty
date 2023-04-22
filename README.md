@@ -57,7 +57,7 @@
 
 </div>
 
-## Tasks
+## Tasks 📝
 
 ### Task 1 - Temel uygulamanın oluşturulması
 * Çalışabilir temel bir uygulama hazırlanacaktır.
