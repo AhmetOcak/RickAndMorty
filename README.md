@@ -15,11 +15,17 @@
 
 ### Portrait
 
-<video src='https://user-images.githubusercontent.com/73544434/233793555-539e13e9-a5dc-4b92-bafa-9716bf6d2f10.mp4' />
+<div>
+  
+  <video src='https://user-images.githubusercontent.com/73544434/233793555-539e13e9-a5dc-4b92-bafa-9716bf6d2f10.mp4' />
+  
+</div>
+
 
 ### LandScape
 
 <video src='https://user-images.githubusercontent.com/73544434/233794385-dc0c2aa1-c90c-44d2-804d-db8b42355ccb.mp4' />
+
 
 
 ## Tech Stack 📚
