@@ -52,7 +52,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 </div>
 
 
-### Portrait and Landing Outputs 📱
+### Portrait and Landing Outputs
 
 ### Portrait
 
@@ -91,7 +91,7 @@ Uygulama sorunuz bir şekilde çalışmaktadır.
 ### Task 3 - Ana sayfanın oluşturulması
 * Sayfa; başlık/logo, kayan yatay liste ve dikey listeden oluşmalıdır.
 
-Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. İlgili video yukarıda <b>Portrait and Landing Outputs 📱</b> başlığı altındadır.
+Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. İlgili [Video](#portrait-and-landing-outputs).
 
 <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>
 
@@ -101,14 +101,15 @@ Ana sayfa bir başlık, kayan liste ve dikey liste barındırmaktadır. İlgili 
 * İlk sayfanın listelenmesi yeterlidir (20 lokasyon).
 * Seçili lokasyon ile seçili olmayan lokasyonların tasarımları farklı olmalıdır.
 
-Yatay liste verilen API'dan gelen lokasyon verileri ile doldurulmuştur. Seçili olmayan lokasyonların lokasyon resimlerine ve arka plan renklerine gri filtre uygulanmıştır. Seçili lokasyon orjinal bir şekilde gözükmektedir. Böylelikle seçili ve seçili olmayan lokasyonlar ayırt edilebilmektedir. İlgili video <b>Portrait and Landing Outputs 📱</b> başlığı altındadır.
+Yatay liste verilen API'dan gelen lokasyon verileri ile doldurulmuştur. Seçili olmayan lokasyonların lokasyon resimlerine ve arka plan renklerine gri filtre uygulanmıştır. Seçili lokasyon orjinal bir şekilde gözükmektedir. Böylelikle seçili ve seçili olmayan lokasyonlar ayırt edilebilmektedir. İlgili İlgili 
+[Video](#portrait-and-landing-outputs).
 
 ### Task 5 - Dikey listenin doldurulması
 * Yatay listeden çekilen lokasyona ait karakterler listelenmelidir.
 * Lokasyon cevabında karakterlere (residents) ait url’ler gelmektedir. Bu url’lerdeki id’ler
 ayıklanarak bu kaynaktan karakter detayları çekilecektir. Kaynak: https://rickandmortyapi.com/documentation/#get-multiple-characters
 
-Dikey liste, seçili lokasyondan gelen residents url'lerinden ayıklanan karakter id'leri vasıtasıyla doldurulur. İlgili API'dan karakter id'leri kullanılarak karakterler alınır. İlgili video <b>Portrait and Landing Outputs 📱</b> başlığı altındadır.
+Dikey liste, seçili lokasyondan gelen residents url'lerinden ayıklanan karakter id'leri vasıtasıyla doldurulur. İlgili API'dan karakter id'leri kullanılarak karakterler alınır. İlgili [Video](#portrait-and-landing-outputs).
 
 
 ### Task 6 - Dikey listedeki item’ların farklılaştırılması
