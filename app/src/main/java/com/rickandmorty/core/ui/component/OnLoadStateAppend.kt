@@ -36,13 +36,13 @@ fun LazyListScope.onLoadStateAppend(
                 Row(
                     modifier = modifier
                         .fillMaxWidth()
-                        .padding(
-                            horizontal = 16.dp,
-                            vertical = if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT)
+                        .height(
+                            if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT)
                                 PORTRAIT_HEIGHT
                             else
-                                0.dp
-                        ),
+                                LANDSCAPE_HEIGHT
+                        )
+                        .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
