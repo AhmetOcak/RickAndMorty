@@ -2,6 +2,10 @@
 
 <img src="https://user-images.githubusercontent.com/73544434/233783800-d74a5a5c-5816-43e5-ba7a-9c0e593ad2a2.png" width="192" height="192"/>
 
+Uygulama Kotlin dili ile yazılmıştır. Uygulama açıldığında kullanıcıyı bir splash sayfası karşılar. Eğer uygulama ilk kez açılıyorsa "Welcome!", sonraki açılışlarda "Hello!" mesajı bir Toast ile kullanıcıya gösterilir. Ana sayfada Rick and Morty lokasyonları Paging 3 kütüphanesi kullanılarak oluşturulan bir yatay listede gösterilmiştir. Seçili lokasyonda bulunan karakterler dikey listede gösterilmiştir. Dikey listede bulunan karakterlerden birine tıklandığı zaman karakter detay sayfası açılmaktadır. Karakter detay sayfası iletilen ilgili tasarıma göre yapılmıştır. 
+
+Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygulama yatay kullanıma uygundur. Ana ekranın yatay kullanıma uygun hale getirmek için ek tasarım yapılmıştır. Karakter detay sayfasında ise iletilen tasarımdan sapmamak için yalnızca vertical scroll eklenmiştir.
+
 ## Tech Stack 📚
 
 * [Navigation](https://developer.android.com/jetpack/compose/navigation)
@@ -124,3 +128,7 @@ Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çeki
 
 <img src="https://user-images.githubusercontent.com/73544434/233797509-81bddc63-8474-4e59-9a52-58158e076f00.gif" width="240" height="480"/>
 
+## Architecture 🏗
+The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional flow of data, separation of concern, testability, and a lot more.
+
+![mvvm](https://user-images.githubusercontent.com/73544434/197416569-d42a6bbe-126e-4776-9c8f-2791925f738c.png)
