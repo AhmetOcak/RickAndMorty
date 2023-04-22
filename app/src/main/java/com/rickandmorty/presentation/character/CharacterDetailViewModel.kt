@@ -30,6 +30,10 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
     var characterDetails: MutableMap<String, String> = mutableStateMapOf()
         private set
 
+    /**
+     * This function extracts character detail data as ui can use it.
+     * @param character character data.
+     */
     fun setDetails(character: Character) {
         characterImage = Uri.decode(character.image)
         characterName = character.name
@@ -56,6 +60,10 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
         )
     }
 
+    /**
+     * This function edits the creation date of the character in the format May 5, 2017 09:48:44(Example).
+     * @param createdDate character's created date.
+     */
     private fun formatCreatedDate(createdDate: String) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val date = OffsetDateTime.parse(createdDate)
         val formatter = DateTimeFormatter.ofPattern("dd MMM uuuu, HH:mm:ss", Locale.ENGLISH)
@@ -66,6 +74,12 @@ class CharacterDetailViewModel @Inject constructor() : ViewModel() {
         date?.toString() ?: "unknown"
     }
 
+    /**
+     * This function must be called when character data is null.
+     * This function set [isCharacterDataNull] state value to true.
+     * When the [isCharacterDataNull] state is true, a ui is shown to the user indicating
+     * that the character has no detail information.
+     */
     fun setCharacterDataNull() {
         isCharacterDataNull = true
     }

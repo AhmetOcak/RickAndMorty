@@ -12,7 +12,7 @@ import javax.inject.Inject
 class GetCharacterUseCase @Inject constructor(private val repository: CharacterRepository) {
 
     /**
-     * This method get characters from API.
+     * This method gets characters from the API.
      *
      * @param ids ids of the characters.
      * @return a [Response] flow of type [Character].

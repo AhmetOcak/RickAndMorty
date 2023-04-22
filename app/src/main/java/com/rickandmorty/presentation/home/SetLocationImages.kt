@@ -2,6 +2,13 @@ package com.rickandmorty.presentation.home
 
 import com.rickandmorty.R
 
+/**
+ * This function matches the location name from the API with the location images in the
+ * resources and returns the matching location image.
+ * @param locationName from API.
+ * @return The location image that matches the location name. If there is no match, the function
+ * returns an image indicating that there is no image available.
+ */
 fun setLocationImage(locationName: String): Int {
     return when (locationName) {
         LocationNames.earth_5_126 -> {

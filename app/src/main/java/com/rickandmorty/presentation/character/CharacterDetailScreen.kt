@@ -25,6 +25,14 @@ import com.rickandmorty.presentation.utils.NO_CHARACTER_DETAIL_MESSAGE
 
 private val CHARACTER_IMAGE_SIZE = 275.dp
 
+/**
+ * This function represent a screen.
+ * This screen contain character details.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param character [Character] object containing the character's details.
+ * @param viewModel the view model of this screen.
+ * @param onNavBackBtnClicked called when back button is clicked.
+ */
 @Composable
 fun CharacterDetailScreen(
     modifier: Modifier = Modifier,
@@ -34,8 +42,10 @@ fun CharacterDetailScreen(
 ) {
 
     if (character != null) {
+        // We transfer the character detail information we receive through the navigation arguments to the view model.
         viewModel.setDetails(character)
     } else {
+        // If character detail is null then we call this function.
         viewModel.setCharacterDataNull()
     }
 
@@ -118,6 +128,11 @@ private fun CharacterContent(
     }
 }
 
+/**
+ * This function shows character details.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param characterDetails data containing the details of the character.
+ */
 @Composable
 private fun CharacterDetailSection(
     modifier: Modifier,
@@ -139,6 +154,12 @@ private fun CharacterDetailSection(
     }
 }
 
+/**
+ * A single row for the shows character detail to user.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param title character detail title.
+ * @param description character detail.
+ */
 @Composable
 private fun CharacterDetail(
     modifier: Modifier,
@@ -187,6 +208,12 @@ private fun DetailTitle(modifier: Modifier, title: String) {
     )
 }
 
+/**
+ * Center Aligned Top App Bar.
+ * @param modifier the [Modifier] to be applied to this top app bar.
+ * @param characterName the character name to be displayed in the top app bar as title.
+ * @param onNavBackBtnClicked called when back button is clicked.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CharacterDetailTopBar(
@@ -217,6 +244,10 @@ private fun CharacterDetailTopBar(
     )
 }
 
+/**
+ * This function shows up when character doesn't have any detail.
+ * This function contain an image and a message.
+ */
 @Composable
 private fun NoCharacterDetail(modifier: Modifier) {
     Column(

@@ -41,6 +41,14 @@ import com.rickandmorty.presentation.utils.HOME_PAGE_TITLE
 private val PORTRAIT_PADDING = 48.dp
 private val LANDSCAPE_PADDING = 24.dp
 
+/**
+ * This function represent a screen.
+ * This screen contain locations and locations residents.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param viewModel the view model of this screen.
+ * @param onNavigateCharacterDetailScreen called when [CharacterShowPlace] is clicked.
+ * When this callback is called, it goes to the character detail page.
+ */
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -198,6 +206,15 @@ private fun CharactersSection(
     }
 }
 
+/**
+ * This function shows different contents for portrait and landscape orientations.
+ * Displays a [LazyColumn] if the device orientation is portrait.
+ * Displays a [LazyVerticalGrid] if the device orientation is landscape.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param characterState character data
+ * @param setCharacterGenderImg a callback function for set the character gender image.
+ * @param onNavigateCharacterDetailScreen navigate character detail screen.
+ */
 @Composable
 private fun CharacterList(
     characterState: CharacterState.Success,
@@ -228,6 +245,14 @@ private fun CharacterList(
     }
 }
 
+/**
+ * This function shows a character list to user.
+ * This function shows up when device orientation is portrait.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param characterState character data
+ * @param setCharacterGenderImg a callback function for set the character gender image.
+ * @param onNavigateCharacterDetailScreen navigate character detail screen.
+ */
 @Composable
 private fun PortraitCharacterList(
     modifier: Modifier,
@@ -254,6 +279,14 @@ private fun PortraitCharacterList(
     }
 }
 
+/**
+ * This function shows a character list to user.
+ * This function shows up when device orientation is landscape.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param characterState character data
+ * @param setCharacterGenderImg a callback function for set the character gender image.
+ * @param onNavigateCharacterDetailScreen navigate character detail screen.
+ */
 @Composable
 private fun LandscapeCharacterList(
     modifier: Modifier,
@@ -282,6 +315,11 @@ private fun LandscapeCharacterList(
     }
 }
 
+/**
+ * This function shows up when selected location don't have any residents.
+ * This function shows different contents for portrait and landscape orientations.
+ * @param modifier the [Modifier] to be applied to this function.
+ */
 @Composable
 private fun EmptyLocation(modifier: Modifier) {
     if (OrientationState.orientation.value == Configuration.ORIENTATION_PORTRAIT) {
@@ -291,6 +329,12 @@ private fun EmptyLocation(modifier: Modifier) {
     }
 }
 
+/**
+ * This function shows up when selected location don't have any residents and device current
+ * portrait is Landscape.
+ * This function contain an image and a message.
+ * @param modifier the [Modifier] to be applied to this function.
+ */
 @Composable
 private fun EmptyLocationPortrait(modifier: Modifier) {
     Column(
@@ -317,6 +361,12 @@ private fun EmptyLocationPortrait(modifier: Modifier) {
     }
 }
 
+/**
+ * This function shows up when selected location don't have any residents and device current
+ * orientation is Landscape.
+ * This function contain an image and a message.
+ * @param modifier the [Modifier] to be applied to this function.
+ */
 @Composable
 private fun EmptyLocationLandscape(modifier: Modifier) {
     Row(
@@ -343,6 +393,12 @@ private fun EmptyLocationLandscape(modifier: Modifier) {
     }
 }
 
+/**
+ * This function shows up when we fail getting characters from API.
+ * This function show an error image and show a toast message.
+ * @param modifier the [Modifier] to be applied to this function.
+ * @param characterState error message.
+ */
 @Composable
 private fun GetCharactersFailMessage(
     modifier: Modifier,
@@ -363,6 +419,10 @@ private fun GetCharactersFailMessage(
     ).show()
 }
 
+/**
+ * Title of this screen.
+ * @param modifier the [Modifier] to be applied to this function.
+ */
 @Composable
 private fun PageTitle(modifier: Modifier) {
     Text(
@@ -373,6 +433,10 @@ private fun PageTitle(modifier: Modifier) {
     )
 }
 
+/**
+ * Rick and Morty image. This image appears at the top of the page.
+ * @param modifier the [Modifier] to be applied to this function.
+ */
 @Composable
 private fun RickAndMortyImage(modifier: Modifier) {
     Box(modifier = modifier.fillMaxWidth()) {

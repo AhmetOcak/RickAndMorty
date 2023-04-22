@@ -24,8 +24,8 @@ import com.rickandmorty.R
 
 /**
  * A method for the load image from the network in an animated way.
- * This method shows a circular progress indicator while loading image from the network.
- * If loading the image fail, method shows an error image.
+ * This method displays a circular progress indicator while loading image from the network.
+ * If loading the image fail, method displays an error image.
  *
  *  @param modifier the [Modifier] to be applied for this method.
  *  @param imageUrl url of the image.

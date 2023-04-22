@@ -1,7 +1,7 @@
 package com.rickandmorty.core.common
 
 /**
- * Base API response type
+ * Base API response type.
  * @param T type of Response
  */
 sealed interface Response<out T> {

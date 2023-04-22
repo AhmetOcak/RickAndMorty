@@ -73,11 +73,21 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This function extract character id from resident url.
+     * @param residentUrl character url.
+     * @return character id. If id is null then throw exception.
+     */
     fun extractCharacterId(residentUrl: String): Int {
         val uri = Uri.parse(residentUrl)
         return uri.lastPathSegment?.toInt() ?: throw Exception()
     }
 
+    /**
+     * This function return a gender image that indicates character gender.
+     * @param gender character gender.
+     * @return gender image.
+     */
     fun setCharacterGenderImage(gender: String): Int {
         return when (gender) {
             CharacterGender.MALE -> {
@@ -102,6 +112,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * This function set [_characterState] value to Error.
+     */
     fun setCharacterStateError() {
         _characterState.value = CharacterState.Error(message = EXCEPTION_MESSAGE)
     }

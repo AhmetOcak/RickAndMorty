@@ -39,6 +39,9 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            // We are getting current orientation value and storing as a state.
+            // When orientation changed our main activity will be destroyed.
+            // So the onCreate function will be called again and we will have our new orientation value.
             OrientationState.orientation.value = getCurrentOrientation()
 
             RickAndMortyTheme {
@@ -55,11 +58,17 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
 
+        // We save the information that the application is opened for the first time.
+        // We use this information to display different messages.
         if (sharedPreferences.getBoolean(LAUNCH_MESSAGE_SHARED_PREF_KEY, true)) {
             sharedPreferences.edit().putBoolean(LAUNCH_MESSAGE_SHARED_PREF_KEY, false).apply()
         }
     }
 
+    /**
+     * Call this function when you want to know the device orientation.
+     * @return current device orientation.
+     */
     @Composable
     private fun getCurrentOrientation(): Int {
         val conf = LocalConfiguration.current
