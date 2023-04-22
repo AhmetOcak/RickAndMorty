@@ -49,7 +49,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 <div>
   
-  <video src='https://user-images.githubusercontent.com/73544434/233793555-539e13e9-a5dc-4b92-bafa-9716bf6d2f10.mp4' />
+  <video src='https://user-images.githubusercontent.com/73544434/233799335-22e452c6-fa56-46fb-9ff4-ebc5e7ac5808.mp4' />
   
 </div>
 
@@ -57,7 +57,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 <div>
 
-<video src='https://user-images.githubusercontent.com/73544434/233794385-dc0c2aa1-c90c-44d2-804d-db8b42355ccb.mp4' />
+<video src='https://user-images.githubusercontent.com/73544434/233799355-48a46773-9823-447f-a6b3-dfe381fc5e9b.mp4' />
 
 </div>
 
@@ -132,3 +132,14 @@ Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çeki
 The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional flow of data, separation of concern, testability, and a lot more.
 
 ![mvvm](https://user-images.githubusercontent.com/73544434/197416569-d42a6bbe-126e-4776-9c8f-2791925f738c.png)
+
+
+
+
+
+
+
+
+
+
+
