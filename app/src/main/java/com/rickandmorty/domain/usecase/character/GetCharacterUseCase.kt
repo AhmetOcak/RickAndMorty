@@ -15,7 +15,7 @@ class GetCharacterUseCase @Inject constructor(private val repository: CharacterR
      * This method gets characters from the API.
      *
      * @param ids ids of the characters.
-     * @return a [Response] flow of type [Character].
+     * @return a [Response] flow of type [Character] list.
      */
     suspend operator fun invoke(ids: ArrayList<Int>): Flow<Response<ArrayList<Character>>> = flow {
         try {

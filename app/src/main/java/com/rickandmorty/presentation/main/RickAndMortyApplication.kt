@@ -25,7 +25,6 @@ class RickAndMortyApplication : Application() {
 
     /**
      * The function displays a welcome message if the application is launched for the first time.
-     * Otherwise function shows a "Hello!" message.
      * Otherwise, the function displays a hello message.
      */
     private fun showLaunchMessage() {

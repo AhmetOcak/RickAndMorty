@@ -24,6 +24,11 @@ import com.rickandmorty.domain.model.character.Character
 import com.rickandmorty.presentation.utils.NO_CHARACTER_DETAIL_MESSAGE
 
 private val CHARACTER_IMAGE_SIZE = 275.dp
+private val CHARACTER_IMAGE_HORIZONTAL_PADDING = 50.dp
+private val CHARACTER_IMAGE_VERTICAL_PADDING = 20.dp
+private val CHARACTER_DETAILS_HORIZONTAL_PADDING = 20.dp
+private val CHARACTER_DETAILS_BOTTOM_PADDING = 20.dp
+private val CHARACTER_DETAILS_VERTICAL_PADDING = 5.dp
 
 /**
  * This function represent a screen.
@@ -117,8 +122,11 @@ private fun CharacterContent(
     ) {
         CustomImage(
             modifier = modifier
-                .size(CHARACTER_IMAGE_SIZE)
-                .padding(horizontal = 50.dp, vertical = 20.dp),
+                .padding(
+                    horizontal = CHARACTER_IMAGE_HORIZONTAL_PADDING,
+                    vertical = CHARACTER_IMAGE_VERTICAL_PADDING
+                )
+                .size(CHARACTER_IMAGE_SIZE),
             imageUrl = characterImage
         )
         CharacterDetailSection(
@@ -141,8 +149,8 @@ private fun CharacterDetailSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 20.dp)
-            .padding(horizontal = 20.dp)
+            .padding(bottom = CHARACTER_DETAILS_BOTTOM_PADDING)
+            .padding(horizontal = CHARACTER_DETAILS_HORIZONTAL_PADDING)
     ) {
         characterDetails.map {
             CharacterDetail(
@@ -174,7 +182,7 @@ private fun CharacterDetail(
         } else {
             modifier
                 .fillMaxWidth()
-                .padding(vertical = 5.dp)
+                .padding(vertical = CHARACTER_DETAILS_VERTICAL_PADDING)
         },
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -257,8 +265,8 @@ private fun NoCharacterDetail(modifier: Modifier) {
     ) {
         NoDetailImage(
             modifier = modifier
-                .size(275.dp)
-                .padding(horizontal = 20.dp)
+                .size(CHARACTER_IMAGE_SIZE)
+                .padding(horizontal = CHARACTER_IMAGE_HORIZONTAL_PADDING)
         )
         NoDetailMessage(
             modifier = modifier

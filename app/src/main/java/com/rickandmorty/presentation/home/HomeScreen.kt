@@ -152,7 +152,7 @@ private fun LocationsSection(
                     getCharacters(residents)
                 }
             )
-            // In order to get the characters from the API, we first need to get the positions.
+            // In order to get the characters from the API, we first need to get the locations.
             // Once locations are received, we use the residents of the first location to initialize the character list.
             // First location id is equal 1, so we need to get first item from itemSnapshotList
             if (!isCharacterListInit && locations.itemSnapshotList.items.isNotEmpty()) {
@@ -331,7 +331,7 @@ private fun EmptyLocation(modifier: Modifier) {
 
 /**
  * This function shows up when selected location don't have any residents and device current
- * portrait is Landscape.
+ * orientation is Landscape.
  * This function contain an image and a message.
  * @param modifier the [Modifier] to be applied to this function.
  */
