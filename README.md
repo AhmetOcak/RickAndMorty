@@ -14,7 +14,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 * [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 
-* [Accompanist](https://google.github.io/accompanist/)
+* [Accompanist](https://google.github.io/accompanist/systemuicontroller/)
 
 * [Animations](https://developer.android.com/jetpack/compose/animation)
 
