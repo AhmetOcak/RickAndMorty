@@ -40,7 +40,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 |------------------------|-------|------|
 | Splash                 |  <img src="https://user-images.githubusercontent.com/73544434/233789741-23d3b9da-5f80-4cec-b744-d74b79c4b354.gif" width="240" height="480"/>     | <img src="https://user-images.githubusercontent.com/73544434/233789694-32a7599c-13f1-4df0-84fb-19b634f55f9d.gif" width="240" height="480"/>     |
 | Ana Sayfa              | <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>      |  <img src="https://user-images.githubusercontent.com/73544434/233788690-0ece480b-b3bc-4a8c-81de-5007e244b484.png" width="240" height="480"/>    |
-| Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233788682-ebc79034-740c-4514-9cfe-e010e9232070.png" width="240" height="480"/>     |
+| Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233845663-1af03be4-368f-46a2-a098-801b2dd4cdeb.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233845654-094e6166-489e-4e49-aa5f-b4719ab12e8d.png" width="240" height="480"/>     |
 
 ### Error Handling ⚠
 <div>
@@ -58,7 +58,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 <div>
   
-  <video src='https://user-images.githubusercontent.com/73544434/233799335-22e452c6-fa56-46fb-9ff4-ebc5e7ac5808.mp4' />
+  <video src='https://user-images.githubusercontent.com/73544434/233845803-8640056d-b2ef-4d90-a160-d4e399b10975.mp4' />
   
 </div>
 
@@ -66,7 +66,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 <div>
 
-<video src='https://user-images.githubusercontent.com/73544434/233799355-48a46773-9823-447f-a6b3-dfe381fc5e9b.mp4' />
+<video src='https://user-images.githubusercontent.com/73544434/233845947-6c3744b7-bc2e-4de7-b732-f8fb67976aa8.mp4' />
 
 </div>
 
@@ -126,7 +126,7 @@ API dokümanlarında 4 cinsiyet olduğu belirtilmiş. Uygulamada 4 cinsiyetide t
 
 Detay sayfası, ana ekranda bulunan karakter listesinden bir karaktere tıklandığı zaman açılmaktadır. Karakter detay sayfası iletilen tasarıma uygun bir şekilde geliştirilmiştir.
 
-<img src="https://user-images.githubusercontent.com/73544434/233788684-e6bf4200-27af-499c-913c-da4e2e5f2423.png" width="240" height="480"/>
+<img src="https://user-images.githubusercontent.com/73544434/233845663-1af03be4-368f-46a2-a098-801b2dd4cdeb.png" width="240" height="480"/>
 
 
 ### Task 8 - Yatay kayan listeye (Lokasyon listesi) lazy load eklenmesi
@@ -142,6 +142,14 @@ Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çeki
 The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional flow of data, separation of concern, testability, and a lot more.
 
 ![mvvm](https://user-images.githubusercontent.com/73544434/197416569-d42a6bbe-126e-4776-9c8f-2791925f738c.png)
+
+
+
+
+
+
+
+
 
 
 
