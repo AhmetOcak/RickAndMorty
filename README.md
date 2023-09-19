@@ -1,10 +1,10 @@
-# 2023 Çekirge Programı - USG Stajyer Challenge
+# Rick And Morty
 
 <img src="https://user-images.githubusercontent.com/73544434/233783800-d74a5a5c-5816-43e5-ba7a-9c0e593ad2a2.png" width="192" height="192"/>
 
-Uygulama Kotlin dili ile yazılmıştır. Uygulama açıldığında kullanıcıyı bir splash sayfası karşılar. Eğer uygulama ilk kez açılıyorsa "Welcome!", sonraki açılışlarda "Hello!" mesajı bir Toast ile kullanıcıya gösterilir. Ana sayfada Rick and Morty lokasyonları Paging 3 kütüphanesi kullanılarak oluşturulan bir yatay listede gösterilmiştir. Seçili lokasyonda bulunan karakterler dikey listede gösterilmiştir. Dikey listede bulunan karakterlerden birine tıklandığı zaman karakter detay sayfası açılmaktadır. Karakter detay sayfası iletilen ilgili tasarıma göre yapılmıştır. 
+The application is written in the Kotlin language. When the application is opened, it greets the user with a splash screen. If it's the first time the application is opened, it displays a "Welcome!" message to the user in subsequent openings, it shows a "Hello!" message with a Toast. On the main page, a horizontal list is displayed using the Paging 3 library, showing locations from the Rick and Morty series. Characters from the selected location are displayed in a vertical list. Clicking on one of the characters in the vertical list opens a character detail page.
 
-Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygulama yatay kullanıma uygundur. Ana ekranın yatay kullanıma uygun hale getirmek için ek tasarım yapılmıştır. Karakter detay sayfasında ise iletilen tasarımdan sapmamak için yalnızca vertical scroll eklenmiştir.
+The application works seamlessly with both light and dark themes. It is designed to be user-friendly in horizontal usage, with additional design adjustments made to make the main screen suitable for horizontal orientation. For the character detail page, only vertical scrolling has been added to stay in line with the provided design.
 
 ## Tech Stack 📚
 
@@ -39,8 +39,8 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 |                        | Light | Dark |
 |------------------------|-------|------|
 | Splash                 |  <img src="https://user-images.githubusercontent.com/73544434/233789741-23d3b9da-5f80-4cec-b744-d74b79c4b354.gif" width="240" height="480"/>     | <img src="https://user-images.githubusercontent.com/73544434/233789694-32a7599c-13f1-4df0-84fb-19b634f55f9d.gif" width="240" height="480"/>     |
-| Ana Sayfa              | <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>      |  <img src="https://user-images.githubusercontent.com/73544434/233788690-0ece480b-b3bc-4a8c-81de-5007e244b484.png" width="240" height="480"/>    |
-| Karakter Detay Sayfası | <img src="https://user-images.githubusercontent.com/73544434/233845663-1af03be4-368f-46a2-a098-801b2dd4cdeb.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233845654-094e6166-489e-4e49-aa5f-b4719ab12e8d.png" width="240" height="480"/>     |
+| Home Screen              | <img src="https://user-images.githubusercontent.com/73544434/233788686-9bf06be3-4f63-4a91-9ef0-299506f466e3.png" width="240" height="480"/>      |  <img src="https://user-images.githubusercontent.com/73544434/233788690-0ece480b-b3bc-4a8c-81de-5007e244b484.png" width="240" height="480"/>    |
+| Character Detail Screen | <img src="https://user-images.githubusercontent.com/73544434/233845663-1af03be4-368f-46a2-a098-801b2dd4cdeb.png" width="240" height="480"/>      | <img src="https://user-images.githubusercontent.com/73544434/233845654-094e6166-489e-4e49-aa5f-b4719ab12e8d.png" width="240" height="480"/>     |
 
 ### Error Handling ⚠
 <div>
@@ -70,6 +70,7 @@ Uygulama açık ve kapalı temalarla uyumlu bir şekilde çalışmaktadır. Uygu
 
 </div>
 
+<!--
 ## Tasks 📝
 
 ### Task 1 - Temel uygulamanın oluşturulması
@@ -136,7 +137,7 @@ Detay sayfası, ana ekranda bulunan karakter listesinden bir karaktere tıkland�
 Yatay liste sona doğru dayandığında bir sonraki sayfayı çeker. Liste çekilebilecek başka sayfa kalmayıncaya dek her sona doğru dayandığında sayfa çeker. Yeni sayfanın yüklenmesi esnasında loading item gözükür. (İnternet hızının iyi olması halinde veri çok hızlı çekilebileceğinden kullanıcı lazy load'ı göremeyebilir.)
 
 
-<img src="https://user-images.githubusercontent.com/73544434/233797509-81bddc63-8474-4e59-9a52-58158e076f00.gif" width="240" height="480"/>
+<img src="https://user-images.githubusercontent.com/73544434/233797509-81bddc63-8474-4e59-9a52-58158e076f00.gif" width="240" height="480"/> -->
 
 ## Architecture 🏗
 The app uses MVVM [Model-View-ViewModel] architecture to have a unidirectional flow of data, separation of concern, testability, and a lot more.
